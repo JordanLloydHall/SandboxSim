@@ -1,5 +1,6 @@
 import sys, pygame, time
 import numpy as np
+from pixels import *
 
 pygame.init()
 size = width, height = 500, 500
@@ -8,23 +9,6 @@ bgColour = 0,0,0
 pixelColour = 25,25,25
 
 screen = pygame.display.set_mode(size)
-
-# ---- Pixel Objects
-class Pixel:
-    def __init__(self, posX, posY, Color):
-        self.posX = posX
-        self.posY = posY
-        self.Color = Color
-
-    def draw_pixel(self):
-        pygame.draw.rect(screen, self.Color, (self.posX - 50 * 0.75, self.posY -50 * 0.75, 25, 25))
-
-class Pixel_Cursor(Pixel):
-    def __init__(self, posX, posY):
-        self.Color = 100,0,100
-        Pixel.__init__(self, posX, posY, self.Color)
-
-
 
 # ---- Creates Pixel Grid
 def pixel_grid():
