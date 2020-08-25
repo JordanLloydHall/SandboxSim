@@ -33,7 +33,7 @@ def pixel_grid():
             void_layer[y][x] = (Pixel((x+1) * 50, (y+1) * 50, pixelColour))
 
 
-# ---- Mouse Cursor
+# ---- Mouse Cursor Funcs
 
 def mouse_grid_plot(pxPos, pxObj):
     cursor_layer.fill(None)
