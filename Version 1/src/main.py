@@ -15,6 +15,10 @@ pixelColour = 25,25,25
 
 screen = pygame.display.set_mode(screen_size)
 
+
+
+
+
 # ---- Calculate width of pixel (including padding) = 50
 def pixel_fullwidth():
     return screen_width/NO_ROWS
