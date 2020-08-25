@@ -2,6 +2,10 @@ import sys, pygame, time
 import numpy as np
 from pixels import *
 
+# ---- CONSTANTS
+NO_ROWS = 10
+NO_COLS = 10
+
 pygame.init()
 screen_size = screen_width, screen_height = 500, 500
 bgColour = 0,0,0
@@ -47,8 +51,8 @@ class World_Grid:
 
 # ---- Creates Pixel Grid
 def pixel_grid():
-    for x in range(0, 10):
-        for y in range(0, 10):
+    for x in range(0, NO_ROWS):
+        for y in range(0, NO_COLS):
             void_layer[y][x] = (Pixel((x+1) * 50, (y+1) * 50))
 
 
@@ -68,13 +72,13 @@ run = True
 debug_ticker = 0
 
 
-void_layer = np.empty((10, 10), dtype=object)
-objs_layer = np.empty((10, 10), dtype=object)
+void_layer = np.empty((NO_ROWS, NO_COLS), dtype=object)
+objs_layer = np.empty((NO_ROWS, NO_COLS), dtype=object)
 
-cursor_layer = np.empty((10, 10), dtype=object)
+cursor_layer = np.empty((NO_ROWS, NO_COLS), dtype=object)
 pixel_grid()
 
-world_grid = World_Grid(10, 10, 25, screen)
+world_grid = World_Grid(NO_ROWS, NO_COLS, 25, screen)
 # ---- Main Loop
 while run:
     for event in pygame.event.get():
