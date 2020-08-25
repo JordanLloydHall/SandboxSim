@@ -2,6 +2,11 @@ import sys, pygame, time
 import numpy as np
 from pixels import *
 
+# ---- CONSTANTS
+NO_ROWS = 10
+NO_COLS = 10
+
+# ---- start
 pygame.init()
 screen_size = screen_width, screen_height = 500, 500
 bgColour = 0,0,0
@@ -9,21 +14,34 @@ bgColour = 0,0,0
 pixelColour = 25,25,25
 
 screen = pygame.display.set_mode(screen_size)
-# ---- World Grid
 
+# ---- Calculate width of pixel (including padding) = 50
+def pixel_fullwidth():
+    return screen_width/NO_ROWS
+
+# ---- Calculate width of pixel (not including padding) = 25
+def pixel_width():
+    return pixel_fullwidth()/2
+
+# ---- Creates Pixel Grid
+def pixel_grid():
+    for x in range(0, NO_ROWS):
+        for y in range(0, NO_COLS):
+            void_layer[y][x] = (Pixel((x+1) * pixel_fullwidth(), (y+1) * pixel_fullwidth()))
+
+# ---- World Grid
 class World_Grid:
 
-    def __init__(self, width, height, pxwidth, screen):
+    def __init__(self, width, height, screen):
         self.width = width
         self.height = height
-        self.pxwidth = pxwidth
         self.screen = screen
 
     def draw_grid(self, pixelGrid):
         for pixelRow in pixelGrid:
             for pixel in pixelRow:
                 if pixel != None:
-                    pixel.draw_pixel(self.screen)
+                    pixel.draw_pixel(self.screen, pixel_width(), pixel_fullwidth())
 
     def draw_layers(self, layer_buffer):
         for layer in layer_buffer:
@@ -33,23 +51,11 @@ class World_Grid:
         return self.width
     def get_height(self):
         return self.height
-    def get_pxwidth(self):
-        return self.pxwidth
     
     def set_width(self, width):
         self.width = width
     def set_heigth(self, height):
         self.height = height
-    def set_pxwidth(self, pxwidth):
-        self.pxwidth = pxwidth
-
-
-
-# ---- Creates Pixel Grid
-def pixel_grid():
-    for x in range(0, 10):
-        for y in range(0, 10):
-            void_layer[y][x] = (Pixel((x+1) * 50, (y+1) * 50))
 
 
 # ---- Mouse Cursor Funcs
@@ -60,21 +66,21 @@ def mouse_grid_plot(pxPos, pxObj):
 
 def update_pixel_grid_mouse_hover():
     mousePos = pygame.mouse.get_pos()
-    objPos = (int(np.trunc(mousePos[0]/50)), int(np.trunc(mousePos[1]/50)))
-    mouse_grid_plot(objPos, Pixel_Cursor((objPos[0]+1)*50,(objPos[1]+1)*50))
+    objPos = (int(np.trunc(mousePos[0]/pixel_fullwidth())), int(np.trunc(mousePos[1]/pixel_fullwidth())))
+    mouse_grid_plot(objPos, Pixel_Cursor((objPos[0]+1)*pixel_fullwidth(),(objPos[1]+1)*pixel_fullwidth()))
 
 # ---- Initialisation
 run = True
 debug_ticker = 0
 
 
-void_layer = np.empty((10, 10), dtype=object)
-objs_layer = np.empty((10, 10), dtype=object)
+void_layer = np.empty((NO_ROWS, NO_COLS), dtype=object)
+objs_layer = np.empty((NO_ROWS, NO_COLS), dtype=object)
 
-cursor_layer = np.empty((10, 10), dtype=object)
+cursor_layer = np.empty((NO_ROWS, NO_COLS), dtype=object)
 pixel_grid()
 
-world_grid = World_Grid(10, 10, 25, screen)
+world_grid = World_Grid(NO_ROWS, NO_COLS, screen)
 # ---- Main Loop
 while run:
     for event in pygame.event.get():
