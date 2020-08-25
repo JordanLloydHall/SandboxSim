@@ -9,7 +9,7 @@ pixelColour = 25,25,25
 
 screen = pygame.display.set_mode(size)
 
-# ---- Pixel Object
+# ---- Pixel Objects
 class Pixel:
     def __init__(self, posX, posY, Color):
         self.posX = posX
