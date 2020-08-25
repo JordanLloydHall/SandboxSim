@@ -14,7 +14,7 @@ screen = pygame.display.set_mode(size)
 def pixel_grid():
     for x in range(0, 10):
         for y in range(0, 10):
-            void_layer[y][x] = (Pixel((x+1) * 50, (y+1) * 50, pixelColour))
+            void_layer[y][x] = (Pixel((x+1) * 50, (y+1) * 50))
 
 
 # ---- Mouse Cursor Funcs
@@ -34,7 +34,7 @@ def draw_grid(pixelGrid):
     for pixelRow in pixelGrid:
         for pixel in pixelRow:
             if pixel != None:
-                pixel.draw_pixel() 
+                pixel.draw_pixel(screen) 
 
 # ---- Initialisation
 run = True
@@ -43,8 +43,8 @@ debug_ticker = 0
 
 void_layer = np.empty((10, 10), dtype=object)
 objs_layer = np.empty((10, 10), dtype=object)
+
 cursor_layer = np.empty((10, 10), dtype=object)
-print(void_layer)
 pixel_grid()
 
 # ---- Main Loop
