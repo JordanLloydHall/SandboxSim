@@ -3,12 +3,46 @@ import numpy as np
 from pixels import *
 
 pygame.init()
-size = width, height = 500, 500
+screen_size = screen_width, screen_height = 500, 500
 bgColour = 0,0,0
 
 pixelColour = 25,25,25
 
-screen = pygame.display.set_mode(size)
+screen = pygame.display.set_mode(screen_size)
+# ---- World Grid
+
+class World_Grid:
+
+    def __init__(self, width, height, pxwidth):
+        self.width = width
+        self.height = height
+        self.pxwidth = pxwidth
+
+    def draw_grid(self, pixelGrid):
+        for pixelRow in pixelGrid:
+            for pixel in pixelRow:
+                if pixel != None:
+                    pixel.draw_pixel() 
+
+    def draw_layers(self, layer_buffer):
+        for layer in layer_buffer:
+            self.draw_grid(layer)
+    
+    def get_width(self):
+        return self.width
+    def get_height(self):
+        return self.height
+    def get_pxwidth(self):
+        return self.pxwidth
+    
+    def set_width(self, width):
+        self.width = width
+    def set_heigth(self, height):
+        self.height = height
+    def set_pxwidth(self, pxwidth):
+        self.pxwidth = pxwidth
+
+
 
 # ---- Creates Pixel Grid
 def pixel_grid():
@@ -28,14 +62,6 @@ def update_pixel_grid_mouse_hover():
     objPos = (int(np.trunc(mousePos[0]/50)), int(np.trunc(mousePos[1]/50)))
     mouse_grid_plot(objPos, Pixel_Cursor((objPos[0]+1)*50,(objPos[1]+1)*50))
 
-# ---- Rendering Functions
-
-def draw_grid(pixelGrid):
-    for pixelRow in pixelGrid:
-        for pixel in pixelRow:
-            if pixel != None:
-                pixel.draw_pixel(screen) 
-
 # ---- Initialisation
 run = True
 debug_ticker = 0
@@ -47,6 +73,7 @@ objs_layer = np.empty((10, 10), dtype=object)
 cursor_layer = np.empty((10, 10), dtype=object)
 pixel_grid()
 
+world_grid = World_Grid(10, 10, 25)
 # ---- Main Loop
 while run:
     for event in pygame.event.get():
@@ -57,8 +84,7 @@ while run:
     update_pixel_grid_mouse_hover()
 
     layer_buffer = [void_layer, objs_layer, cursor_layer]
-    for layer in layer_buffer:
-        draw_grid(layer)
+    world_grid.draw_layers(layer_buffer)
     #obj_grid()
     
     pygame.display.flip() 
