@@ -13,16 +13,17 @@ screen = pygame.display.set_mode(screen_size)
 
 class World_Grid:
 
-    def __init__(self, width, height, pxwidth):
+    def __init__(self, width, height, pxwidth, screen):
         self.width = width
         self.height = height
         self.pxwidth = pxwidth
+        self.screen = screen
 
     def draw_grid(self, pixelGrid):
         for pixelRow in pixelGrid:
             for pixel in pixelRow:
                 if pixel != None:
-                    pixel.draw_pixel() 
+                    pixel.draw_pixel(self.screen)
 
     def draw_layers(self, layer_buffer):
         for layer in layer_buffer:
@@ -73,7 +74,7 @@ objs_layer = np.empty((10, 10), dtype=object)
 cursor_layer = np.empty((10, 10), dtype=object)
 pixel_grid()
 
-world_grid = World_Grid(10, 10, 25)
+world_grid = World_Grid(10, 10, 25, screen)
 # ---- Main Loop
 while run:
     for event in pygame.event.get():
