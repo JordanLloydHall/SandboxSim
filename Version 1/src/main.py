@@ -1,5 +1,6 @@
 import sys, pygame, time
 import numpy as np
+from pixels import *
 
 pygame.init()
 screen_size = screen_width, screen_height = 500, 500
@@ -43,28 +44,11 @@ class World_Grid:
 
 
 
-# ---- Pixel Objects
-class Pixel:
-    def __init__(self, posX, posY, Color):
-        self.posX = posX
-        self.posY = posY
-        self.Color = Color
-
-    def draw_pixel(self):
-        pygame.draw.rect(screen, self.Color, (self.posX - 50 * 0.75, self.posY -50 * 0.75, 25, 25))
-
-class Pixel_Cursor(Pixel):
-    def __init__(self, posX, posY):
-        self.Color = 100,0,100
-        Pixel.__init__(self, posX, posY, self.Color)
-
-
-
 # ---- Creates Pixel Grid
 def pixel_grid():
     for x in range(0, 10):
         for y in range(0, 10):
-            void_layer[y][x] = (Pixel((x+1) * 50, (y+1) * 50, pixelColour))
+            void_layer[y][x] = (Pixel((x+1) * 50, (y+1) * 50))
 
 
 # ---- Mouse Cursor Funcs
@@ -78,10 +62,6 @@ def update_pixel_grid_mouse_hover():
     objPos = (int(np.trunc(mousePos[0]/50)), int(np.trunc(mousePos[1]/50)))
     mouse_grid_plot(objPos, Pixel_Cursor((objPos[0]+1)*50,(objPos[1]+1)*50))
 
-# ---- Rendering Functions
-
-
-
 # ---- Initialisation
 run = True
 debug_ticker = 0
@@ -89,8 +69,8 @@ debug_ticker = 0
 
 void_layer = np.empty((10, 10), dtype=object)
 objs_layer = np.empty((10, 10), dtype=object)
+
 cursor_layer = np.empty((10, 10), dtype=object)
-print(void_layer)
 pixel_grid()
 
 world_grid = World_Grid(10, 10, 25)
