@@ -1,3 +1,9 @@
+"""
+Main entry point of the application
+
+So far defines the initial loop 
+"""
+
 import sys, pygame, time
 import numpy as np
 from pixels import *
@@ -74,29 +80,30 @@ def update_pixel_grid_mouse_hover():
     mouse_grid_plot(objPos, Pixel_Cursor((objPos[0]+1)*pixel_fullwidth(),(objPos[1]+1)*pixel_fullwidth()))
 
 # ---- Initialisation
-run = True
-debug_ticker = 0
+if __name__ == "__main__":
+    run = True
+    debug_ticker = 0
 
 
-void_layer = np.empty((NO_ROWS, NO_COLS), dtype=object)
-objs_layer = np.empty((NO_ROWS, NO_COLS), dtype=object)
+    void_layer = np.empty((NO_ROWS, NO_COLS), dtype=object)
+    objs_layer = np.empty((NO_ROWS, NO_COLS), dtype=object)
 
-cursor_layer = np.empty((NO_ROWS, NO_COLS), dtype=object)
-pixel_grid()
+    cursor_layer = np.empty((NO_ROWS, NO_COLS), dtype=object)
+    pixel_grid()
 
-world_grid = World_Grid(NO_ROWS, NO_COLS, screen)
-# ---- Main Loop
-while run:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT: 
-            sys.exit()
-    screen.fill(bgColour)
+    world_grid = World_Grid(NO_ROWS, NO_COLS, screen)
+    # ---- Main Loop
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: 
+                sys.exit()
+        screen.fill(bgColour)
 
-    update_pixel_grid_mouse_hover()
+        update_pixel_grid_mouse_hover()
 
-    layer_buffer = [void_layer, objs_layer, cursor_layer]
-    world_grid.draw_layers(layer_buffer)
-    #obj_grid()
-    
-    pygame.display.flip() 
-    time.sleep(0.02)
+        layer_buffer = [void_layer, objs_layer, cursor_layer]
+        world_grid.draw_layers(layer_buffer)
+        #obj_grid()
+        
+        pygame.display.flip() 
+        time.sleep(0.02)
