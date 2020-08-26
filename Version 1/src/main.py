@@ -44,7 +44,6 @@ class World_Grid:
         self.pxwidth = pxwidth
 
 
-
 # ---- Creates Pixel Grid
 def pixel_grid():
     for x in range(0, 10):
