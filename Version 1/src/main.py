@@ -15,14 +15,14 @@ screen = pygame.display.set_mode(screen_size)
 def pixel_grid():
     for x in range(0, 10):
         for y in range(0, 10):
-            void_layer[y][x] = (Pixel(x, y))
+            void_layer.grid[y][x] = (Grey(x, y))
 
 
 # ---- Mouse Cursor Funcs
 
 def mouse_grid_plot(pxPos, pxObj):
-    cursor_layer.fill(None)
-    cursor_layer[pxPos[1] -1 ][pxPos[0] -1] = pxObj
+    cursor_layer.grid.fill(None)
+    cursor_layer.grid[pxPos[1] -1 ][pxPos[0] -1] = pxObj
 
 def update_pixel_grid_mouse_hover():
     mousePos = pygame.mouse.get_pos()
@@ -33,12 +33,20 @@ def update_pixel_grid_mouse_hover():
 run = True
 debug_ticker = 0
 
-
+"""
 void_layer = np.empty((10, 10), dtype=object)
 objs_layer = np.empty((10, 10), dtype=object)
 
 cursor_layer = np.empty((10, 10), dtype=object)
+
+"""
+
+void_layer = Grid_Layer(10,10)
+objs_layer = Grid_Layer(10,10)
+cursor_layer = Grid_Layer(10,10)
 pixel_grid()
+
+#void_layer.fill_grid()
 
 world_grid = World_Grid(10, 10, 25, screen)
 # ---- Main Loop
