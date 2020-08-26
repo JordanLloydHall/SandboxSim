@@ -6,16 +6,14 @@ class Pixel:
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.color = (25,25,25)
-
-    def draw_pixel(self, screen):
-        pygame.draw.rect(screen, self.color, (self.pos_x*50 - 50 * 0.75, self.pos_y*50 -50 * 0.75, 25, 25))
+    def draw_pixel(self, screen, width, fullwidth):
+        pygame.draw.rect(screen, self.Color, (self.posX - fullwidth * 0.75, self.posY - fullwidth * 0.75, width, width))
 
     def update(self, worldGrid):
         return
 
     def getType(self):
         return "DEFAULT"
-
 
 
 class Sand(Pixel):
