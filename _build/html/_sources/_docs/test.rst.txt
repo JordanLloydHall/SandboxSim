@@ -1,0 +1,4 @@
+My Title
+*********
+
+.. autofunction:: main.pixel_grid
