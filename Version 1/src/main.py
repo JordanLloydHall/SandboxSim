@@ -65,6 +65,7 @@ if __name__ == "__main__":
     #void_layer.fill_grid()
 
     world_grid = World_Grid(10, 10, 25, screen)
+
     # ---- Main Loop
     while run:
         for event in pygame.event.get():
@@ -72,11 +73,11 @@ if __name__ == "__main__":
                 sys.exit()
         screen.fill(bgColour)
 
-    update_pixel_grid_mouse_hover()
+        update_pixel_grid_mouse_hover()
 
-    layer_buffer = [void_layer, objs_layer, cursor_layer]
-    world_grid.draw_layers(layer_buffer)
-    #obj_grid()
+        layer_buffer = [void_layer, objs_layer, cursor_layer]
+        world_grid.draw_layers(layer_buffer)
+        #obj_grid()
     
-    pygame.display.flip() 
-    time.sleep(0.02)
+        pygame.display.flip() 
+        time.sleep(0.02)
