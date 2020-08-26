@@ -57,23 +57,20 @@ if __name__ == "__main__":
     run = True
     debug_ticker = 0
 
+    void_layer = Grid_Layer(10,10)
+    objs_layer = Grid_Layer(10,10)
+    cursor_layer = Grid_Layer(10,10)
+    pixel_grid()
 
-void_layer = Grid_Layer(10,10)
-objs_layer = Grid_Layer(10,10)
-cursor_layer = Grid_Layer(10,10)
-pixel_grid()
+    #void_layer.fill_grid()
 
-#void_layer.fill_grid()
-
-world_grid = World_Grid(10, 10, 25, screen)
-# ---- Main Loop
-while run:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT: 
-            sys.exit()
-    screen.fill(bgColour)
-
-
+    world_grid = World_Grid(10, 10, 25, screen)
+    # ---- Main Loop
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: 
+                sys.exit()
+        screen.fill(bgColour)
 
     update_pixel_grid_mouse_hover()
 
