@@ -60,7 +60,7 @@ if __name__ == "__main__":
     void_layer = Grid_Layer(10,10)
     objs_layer = Grid_Layer(10,10)
     cursor_layer = Grid_Layer(10,10)
-    pixel_grid()
+    void_layer.fill_grid("DEFAULT")
 
     #void_layer.fill_grid()
 
@@ -72,11 +72,11 @@ if __name__ == "__main__":
                 sys.exit()
         screen.fill(bgColour)
 
-    update_pixel_grid_mouse_hover()
+        update_pixel_grid_mouse_hover()
 
-    layer_buffer = [void_layer, objs_layer, cursor_layer]
-    world_grid.draw_layers(layer_buffer)
-    #obj_grid()
-    
-    pygame.display.flip() 
-    time.sleep(0.02)
+        layer_buffer = [void_layer, objs_layer, cursor_layer]
+        world_grid.draw_layers(layer_buffer)
+        #obj_grid()
+        
+        pygame.display.flip() 
+        time.sleep(0.02)

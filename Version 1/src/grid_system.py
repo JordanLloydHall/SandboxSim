@@ -1,4 +1,5 @@
 import numpy as np
+from pixels import *
 
 class World_Grid:
 
@@ -39,8 +40,16 @@ class Grid_Layer:
         self.n_ver = n_ver
         self.grid = np.empty((10, 10), dtype=object)
 
-    def fill_grid(self, obj):
+    def fill_grid(self, type_string):
+
         for x in range(0, 10):
             for y in range(0, 10):
-                self.grid[y][x] = obj(x, y)
+
+                if type_string == "DEFAULT":
+                    self.grid[y][x] = Grey(x, y)
+                elif type_string == "SAND":
+                    self.grid[y][x] = Sand(x, y)
+                elif type_string == "Water":
+                    self.grid[y][x] = Water(x, y)
+                
     
