@@ -2,21 +2,19 @@ import pygame
 
 # ---- Pixel Objects
 class Pixel:
-<<<<<<< HEAD
-    def __init__(self, posX, posY):
-        self.posX = posX
-        self.posY = posY
+    def __init__(self, pos_x, pos_y):
+        self.pos_x = pos_x
+        self.pos_y = pos_y
 
     def draw_pixel(self, screen):
-        pygame.draw.rect(screen, self.Color, (self.posX * 50 + 50 * 0.25, self.posY * 50 +50 * 0.25, 25, 25))
+        pygame.draw.rect(screen, self.color, (self.pos_x * 50 + 50 * 0.25, self.pos_y * 50 +50 * 0.25, 25, 25))
 
 class Grey(Pixel):
+
     def __init__(self, pos_x, pos_y):
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.color = (25,25,25)
-    def draw_pixel(self, screen, width, fullwidth):
-        pygame.draw.rect(screen, self.Color, (self.posX - fullwidth * 0.75, self.posY - fullwidth * 0.75, width, width))
 
     def update(self, worldGrid):
         return
@@ -37,6 +35,7 @@ class Sand(Pixel):
             if worldGrid.getPixel(self.pos_x+x, self.pos_y-1) in ["AIR", "WATER"]:
                 worldGrid.swapPixels((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y-1))
                 return
+
 
     def getType(self):
         return "SAND"
