@@ -2,12 +2,13 @@ import numpy as np
 from pixels import *
 
 class World_Grid:
-
-    def __init__(self, width, height, pxwidth, screen):
-        self.width = width
-        self.height = height
+    
+    def __init__(self, rows, cols, pxwidth, screen):
+        self.rows = rows
+        self.cols = cols
         self.pxwidth = pxwidth
         self.screen = screen
+        
 
     def draw_grid(self, pixel_grid):
         for pixel_row in pixel_grid:
@@ -18,6 +19,13 @@ class World_Grid:
     def draw_layers(self, layer_buffer):
         for layer in layer_buffer:
             self.draw_grid(layer.grid)
+
+    def make_layers(self, num_layers):
+        self.layer_list = []
+        for i in range(num_layers):
+            self.layer_list.append(Grid_Layer(self.rows, self.cols))
+        return self.layer_list
+
     
     def get_width(self):
         return self.width

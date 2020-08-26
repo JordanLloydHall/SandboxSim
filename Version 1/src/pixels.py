@@ -9,7 +9,6 @@ class Pixel:
     def draw_pixel(self, screen):
         pygame.draw.rect(screen, self.color, (self.pos_x * 50 + 50 * 0.25, self.pos_y * 50 +50 * 0.25, 25, 25))
 
-    #def instantiate_pixel(self, type_string):
 
 class Grey(Pixel):
     def __init__(self, pos_x, pos_y):

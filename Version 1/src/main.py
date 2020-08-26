@@ -18,19 +18,7 @@ pygame.init()
 screen_size = screen_width, screen_height = 500, 500
 bgColour = 0,0,0
 
-pixelColour = 25,25,25
-
 screen = pygame.display.set_mode(screen_size)
-
-# ---- Creates Pixel Grid
-def pixel_grid():
-    for x in range(0, 10):
-        for y in range(0, 10):
-            void_layer.grid[y][x] = (Grey(x, y))
-
-
-
-
 
 # ---- Calculate width of pixel (including padding) = 50
 def pixel_fullwidth():
@@ -57,14 +45,16 @@ if __name__ == "__main__":
     run = True
     debug_ticker = 0
 
-    void_layer = Grid_Layer(10,10)
-    objs_layer = Grid_Layer(10,10)
-    cursor_layer = Grid_Layer(10,10)
+    world_grid = World_Grid(NO_ROWS, NO_COLS, 25, screen)
+    layer_buffer = world_grid.make_layers(3)
+    void_layer = layer_buffer[0]
+    objs_layer = layer_buffer[1]
+    cursor_layer = layer_buffer[2]
+
+    
+
     void_layer.fill_grid("DEFAULT")
 
-    #void_layer.fill_grid()
-
-    world_grid = World_Grid(10, 10, 25, screen)
     # ---- Main Loop
     while run:
         for event in pygame.event.get():
@@ -74,7 +64,6 @@ if __name__ == "__main__":
 
         update_pixel_grid_mouse_hover()
 
-        layer_buffer = [void_layer, objs_layer, cursor_layer]
         world_grid.draw_layers(layer_buffer)
         #obj_grid()
         
