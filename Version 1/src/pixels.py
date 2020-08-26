@@ -8,7 +8,7 @@ class Pixel:
         self.Color = (25,25,25)
 
     def draw_pixel(self, screen):
-        pygame.draw.rect(screen, self.Color, (self.posX - 50 * 0.75, self.posY -50 * 0.75, 25, 25))
+        pygame.draw.rect(screen, self.Color, (self.posX * 50 + 50 * 0.25, self.posY * 50 +50 * 0.25, 25, 25))
 
 
 class Sand(Pixel):
