@@ -49,6 +49,7 @@ if __name__ == "__main__":
             if event.type == pygame.QUIT: 
                 sys.exit()
         screen.fill(bgColour)
+
         world_grid_main.screen.fill((100,0, 225,))
         
 
