@@ -7,6 +7,7 @@ class Pixel:
         self.pos_y = pos_y
 
         self.buoyancy = 1
+        self.flammable = 0
 
         self.has_stepped = False
 
@@ -71,6 +72,7 @@ class Wood(Pixel):
         Pixel.__init__(self, pos_x, pos_y)
         self.color = (149, 85, 0)
         self.buoyancy = 0.75
+        self.flammable = 1
 
     def update(self, world_grid):
 
@@ -83,7 +85,25 @@ class Wood(Pixel):
         return self.__class__.__name__.upper()
         
 class Flame(Pixel):
-    pass
+
+    def __init__(self, pos_x, pos_y):
+        Pixel.__init__(self, pos_x, pos_y)
+        self.color = (255,0,0)
+
+    def update(self, world_grid):
+        #If surrounded by nothing (by air), the Flame Pixel should be deleted
+        # => This might be on a timer just so that the Flame doesnt extinguish too quickly.
+        # => Alternatively, Flame could rise, and after a certain number of pixels moved it could disappear.
+        #If a flammable object is in adjacent square(flammable > 0; currently only flammable = 1),
+        #Flame should replace the other pixel.
+        #Flame should be extinguished by some pixels i.e water, which could be checked as flammable < 0
+        #i.e Water could have flammable = -1.
+        pass
+
+    def get_type(self):
+        return self.__class__.__name__.upper()
+
+    
 
 class Pixel_Cursor(Pixel):
     def __init__(self, pos_x, pos_y):
