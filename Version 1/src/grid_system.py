@@ -23,8 +23,8 @@ class World_Grid:
                 if pixel != None:
                     pixel.draw_pixel(self.screen, self.pxwidth)
 
-    def draw_layers(self, layer_buffer):
-        for layer in layer_buffer:
+    def draw_layers(self):
+        for layer in self.layer_list:
             self.draw_grid(layer.grid)
 
     def make_layers(self, num_layers):
@@ -32,21 +32,6 @@ class World_Grid:
         for i in range(num_layers):
             self.layer_list.append(Grid_Layer(self.rows, self.cols))
         return self.layer_list
-
-    
-    def get_width(self):
-        return self.width
-    def get_height(self):
-        return self.height
-    def get_rows(self):
-        return self.rows
-    def get_cols(self):
-        return self.cols
-    
-    def set_width(self, width):
-        self.width = width
-    def set_heigth(self, height):
-        self.height = height
 
 class Grid_Layer:
     
@@ -78,5 +63,4 @@ class Grid_Layer:
                     self.grid[y][x] = Sand(x,y)
                 elif type_string == "Water":
                     self.grid[y][x] = Water(x,y)
-                
-                
+                          
