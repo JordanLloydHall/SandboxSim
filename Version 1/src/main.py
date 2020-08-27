@@ -62,3 +62,5 @@ if __name__ == "__main__":
         screen.blit(world_grid_main.screen, (GRID_X,GRID_Y))
         pygame.display.flip() 
         time.sleep(0.02)
+
+        world_grid_main.step_pixels()

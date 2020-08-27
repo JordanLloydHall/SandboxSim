@@ -3,7 +3,7 @@ from pixels import *
 
 class World_Grid:
 
-    def __init__(self, width, height, pxwidth, screen):
+    def __init__(self, width, height, rows, cols):
         self.width = width
         self.height = height
         self.rows = rows
@@ -17,8 +17,8 @@ class World_Grid:
         self.pxwidth = pxwidth
         
 
-        self.current_pixel_grid = current_pixel_grid
-        self.next_pixel_grid = Grid_Layer(current_pixel_grid.n_hor, current_pixel_grid.n_ver)
+        self.current_pixel_grid = Grid_Layer(rows, cols)
+        self.next_pixel_grid = Grid_Layer(rows, cols)
 
     def draw_grid(self, pixel_grid):
         for pixel_row in pixel_grid:
