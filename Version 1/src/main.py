@@ -1,6 +1,5 @@
 """
 Main entry point of the application
-
 So far defines the initial loop 
 """
 
@@ -8,27 +7,15 @@ import sys, pygame, time
 import numpy as np
 from pixels import *
 from grid_system import *
-
-# ---- CONSTANTS
-NO_ROWS = 10
-NO_COLS = 10
+from mouse_events import *
+from constants import *
 
 # ---- start
 pygame.init()
-screen_size = screen_width, screen_height = 500, 500
+screen_size = screen_width, screen_height = 1200, 700
 bgColour = 0,0,0
 
-pixelColour = 25,25,25
-
 screen = pygame.display.set_mode(screen_size)
-
-# ---- Creates Pixel Grid
-def pixel_grid():
-    for x in range(0, 10):
-        for y in range(0, 10):
-            void_layer.grid[y][x] = (Grey(x, y))
-
-
 
 
 
@@ -40,31 +27,22 @@ def pixel_fullwidth():
 def pixel_width():
     return pixel_fullwidth()/2
 
-# ---- Mouse Cursor Funcs
-
-def mouse_grid_plot(pxPos, pxObj):
-    cursor_layer.grid.fill(None)
-    cursor_layer.grid[pxPos[1] -1 ][pxPos[0] -1] = pxObj
-
-def update_pixel_grid_mouse_hover():
-    mousePos = pygame.mouse.get_pos()
-
-    objPos = (int(np.trunc(mousePos[0]/50)), int(np.trunc(mousePos[1]/50)))
-    mouse_grid_plot(objPos, Pixel_Cursor(objPos[0],objPos[1]))
+def event_update():
+        update_pixel_grid_mouse_hover(world_grid_main)
 
 # ---- Initialisation
 if __name__ == "__main__":
     run = True
     debug_ticker = 0
 
-    void_layer = Grid_Layer(10,10)
-    objs_layer = Grid_Layer(10,10)
-    cursor_layer = Grid_Layer(10,10)
-    pixel_grid()
+    world_grid_main = World_Grid(GRID_WIDTH, GRID_HEIGHT, NO_ROWS, NO_COLS)
+    layer_buffer = world_grid_main.make_layers(3)
+    void_layer = layer_buffer[0]
+    objs_layer = layer_buffer[1]
+    cursor_layer = layer_buffer[2]
 
-    #void_layer.fill_grid()
+    void_layer.fill_grid("DEFAULT")
 
-    world_grid = World_Grid(10, 10, 25, screen)
     # ---- Main Loop
     while run:
         for event in pygame.event.get():
@@ -72,11 +50,15 @@ if __name__ == "__main__":
                 sys.exit()
         screen.fill(bgColour)
 
-    update_pixel_grid_mouse_hover()
+        world_grid_main.screen.fill((100,0, 225,))
+        
 
-    layer_buffer = [void_layer, objs_layer, cursor_layer]
-    world_grid.draw_layers(layer_buffer)
-    #obj_grid()
-    
-    pygame.display.flip() 
-    time.sleep(0.02)
+        
+        #void_layer.set_pixel(0,0, "SAND")
+        event_update()
+
+        world_grid_main.draw_layers(layer_buffer)
+        #obj_grid()     
+        screen.blit(world_grid_main.screen, (GRID_X,GRID_Y))
+        pygame.display.flip() 
+        time.sleep(0.02)

@@ -11,22 +11,21 @@ class Pixel:
         self.has_stepped = False
 
     def draw_pixel(self, screen):
-        pygame.draw.rect(screen, self.color, (self.pos_x * 50 + 50 * 0.25, self.pos_y * 50 +50 * 0.25, 25, 25))
+        px_fac = 1
+        pygame.draw.rect(screen, self.color, ((self.pos_x +(1-px_fac)/2) * pxwidth, (self.pos_y + (1-px_fac)/2) * pxwidth, pxwidth * px_fac, pxwidth * px_fac))
 
-    def getType(self):
+    def get_type(self):
         return "DEFAULT"
 
 class Grey(Pixel):
-
     def __init__(self, pos_x, pos_y):
-        self.pos_x = pos_x
-        self.pos_y = pos_y
+        Pixel.__init__(self, pos_x, pos_y)
         self.color = (25,25,25)
 
     def update(self, world_grid):
         return
-
-    def getType(self):
+    
+    def get_type(self):
         return "DEFAULT"
 
 
@@ -45,9 +44,7 @@ class Sand(Pixel):
                 world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y-1))
                 return
 
-
-
-    def getType(self):
+    def get_type(self):
         return "SAND"
 
 class Water(Pixel):
@@ -65,7 +62,7 @@ class Water(Pixel):
                 world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y-1))
                 return
 
-    def getType(self):
+    def get_type(self):
         return "WATER"
 
 class Pixel_Cursor(Pixel):
