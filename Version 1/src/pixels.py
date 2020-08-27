@@ -10,7 +10,7 @@ class Pixel:
 
         self.has_stepped = False
 
-    def draw_pixel(self, screen):
+    def draw_pixel(self, screen, pxwidth):
         px_fac = 1
         pygame.draw.rect(screen, self.color, ((self.pos_x +(1-px_fac)/2) * pxwidth, (self.pos_y + (1-px_fac)/2) * pxwidth, pxwidth * px_fac, pxwidth * px_fac))
 
