@@ -15,8 +15,10 @@ def update_pixel_grid_mouse_hover(world_grid):
         ((mousePos[1] < GRID_Y + GRID_HEIGHT) and (mousePos[1] > GRID_Y))):
 
         objPos = (int(np.trunc((mousePos[0] - GRID_X)/world_grid.pxwidth)), int(np.trunc((mousePos[1] - GRID_Y)/world_grid.pxwidth)))
+
+        
         #print(objPos)
-        mouse_grid_plot(objPos, Pixel_Cursor(objPos[0],objPos[1]), world_grid.layer_list[1])
+        #mouse_grid_plot(objPos, Pixel_Cursor(objPos[0],objPos[1]), world_grid.layer_list[1])
     else:
-        world_grid.layer_list[1].grid.fill(None)
+        world_grid.layer_list[2].grid.fill(None)
 

@@ -37,11 +37,11 @@ if __name__ == "__main__":
 
     world_grid_main = World_Grid(GRID_WIDTH, GRID_HEIGHT, NO_ROWS, NO_COLS)
     layer_buffer = world_grid_main.make_layers(3)
-    void_layer = layer_buffer[0]
+    #void_layer = layer_buffer[0]
     objs_layer = layer_buffer[1]
-    cursor_layer = layer_buffer[2]
+    #cursor_layer = layer_buffer[2]
 
-    void_layer.fill_grid("DEFAULT")
+    #void_layer.fill_grid("DEFAULT")
 
     # ---- Main Loop
     while run:
@@ -50,7 +50,7 @@ if __name__ == "__main__":
                 sys.exit()
         screen.fill(bgColour)
 
-        world_grid_main.screen.fill((100,0, 225,))
+        world_grid_main.screen.fill((25,25, 25))
         
 
         
