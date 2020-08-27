@@ -7,7 +7,9 @@ class Pixel:
         self.pos_y = pos_y
 
     def draw_pixel(self, screen, pxwidth):
-        pygame.draw.rect(screen, self.color, ((self.pos_x +0.25) * pxwidth, (self.pos_y + 0.25) * pxwidth, pxwidth/2, pxwidth/2))
+
+        px_fac = 1
+        pygame.draw.rect(screen, self.color, ((self.pos_x +(1-px_fac)/2) * pxwidth, (self.pos_y + (1-px_fac)/2) * pxwidth, pxwidth * px_fac, pxwidth * px_fac))
 
 
 class Grey(Pixel):

@@ -1,6 +1,6 @@
 import numpy as np
 from pixels import *
-
+import time
 class World_Grid:
     
     def __init__(self,width, height, rows, cols):
@@ -50,21 +50,33 @@ class World_Grid:
 
 class Grid_Layer:
     
-    def __init__(self, n_hor, n_ver):
-        self.n_hor = n_hor
-        self.n_ver = n_ver
-        self.grid = np.empty((n_hor, n_ver), dtype=object)
+    def __init__(self, rows, cols):
+        self.rows = rows
+        self.cols = cols
+        self.grid = np.empty((rows, cols), dtype=object)
+
+    def get_pixel(self, x, y):
+        return self.grid[self.rows - y][x]
+    
+    def set_pixel(self, x, y, type_string):
+        if type_string == "DEFAULT":
+            self.grid[y][x] = Grey(x,y)
+        elif type_string == "SAND":
+            self.grid[y][x] = Sand(x,y)
+        elif type_string == "Water":
+            self.grid[y][x] = Water(x,y)
 
     def fill_grid(self, type_string):
-
-        for x in range(0, self.n_hor):
-            for y in range(0, self.n_ver):
-
-                if type_string == "DEFAULT":
-                    self.grid[y][x] = Grey(x, y)
-                elif type_string == "SAND":
-                    self.grid[y][x] = Sand(x, y)
-                elif type_string == "Water":
-                    self.grid[y][x] = Water(x, y)
-                
+        for y in range(0, self.rows):
+            for x in range(0, self.cols):
+                pos_x = x
+                pos_y = y
     
+                if type_string == "DEFAULT":
+                    self.grid[y][x] = Grey(x,y)
+                elif type_string == "SAND":
+                    self.grid[y][x] = Sand(x,y)
+                elif type_string == "Water":
+                    self.grid[y][x] = Water(x,y)
+                
+                

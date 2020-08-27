@@ -1,6 +1,5 @@
 """
 Main entry point of the application
-
 So far defines the initial loop 
 """
 
@@ -8,16 +7,12 @@ import sys, pygame, time
 import numpy as np
 from pixels import *
 from grid_system import *
-
-# ---- CONSTANTS
-NO_ROWS = 50
-NO_COLS = 50
-GRID_WIDTH = 600
-GRID_HEIGHT = 600
+from mouse_events import *
+from constants import *
 
 # ---- start
 pygame.init()
-screen_size = screen_width, screen_height = 700, 700
+screen_size = screen_width, screen_height = 1200, 700
 bgColour = 0,0,0
 
 screen = pygame.display.set_mode(screen_size)
@@ -32,19 +27,8 @@ def pixel_fullwidth():
 def pixel_width():
     return pixel_fullwidth()/2
 
-# ---- Mouse Cursor Funcs
-
-def mouse_grid_plot(pxPos, pxObj):
-    cursor_layer.grid.fill(None)
-    #cursor_layer.grid[pxPos[1] -1 ][pxPos[0] -1] = pxObj
-
-def update_pixel_grid_mouse_hover(world_grid):
-    mousePos = pygame.mouse.get_pos()
-
-    objPos = (int(np.trunc(mousePos[0]/world_grid.pxwidth)), int(np.trunc(mousePos[1]/world_grid.pxwidth)))
-    #if objPos[0]
-    print(objPos)
-    #mouse_grid_plot(objPos, Pixel_Cursor(objPos[0],objPos[1]))
+def event_update():
+        update_pixel_grid_mouse_hover(world_grid_main)
 
 # ---- Initialisation
 if __name__ == "__main__":
@@ -57,8 +41,6 @@ if __name__ == "__main__":
     objs_layer = layer_buffer[1]
     cursor_layer = layer_buffer[2]
 
-    
-
     void_layer.fill_grid("DEFAULT")
 
     # ---- Main Loop
@@ -67,13 +49,15 @@ if __name__ == "__main__":
             if event.type == pygame.QUIT: 
                 sys.exit()
         screen.fill(bgColour)
-        world_grid_main.screen.fill((25,0, 0,))
+        world_grid_main.screen.fill((100,0, 225,))
         
 
-        update_pixel_grid_mouse_hover(world_grid_main)
+        
+        #void_layer.set_pixel(0,0, "SAND")
+        event_update()
 
         world_grid_main.draw_layers(layer_buffer)
         #obj_grid()     
-        screen.blit(world_grid_main.screen, (0,0))
+        screen.blit(world_grid_main.screen, (GRID_X,GRID_Y))
         pygame.display.flip() 
         time.sleep(0.02)
