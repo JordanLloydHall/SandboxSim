@@ -37,10 +37,10 @@ class World_Grid:
         return self.layer_list
 
     def step_pixels(self):
-        self.next_pixel_grid = Grid_Layer(self.current_pixel_grid.n_hor, self.current_pixel_grid.n_ver)
+        self.next_pixel_grid = Grid_Layer(self.current_pixel_grid.cols, self.current_pixel_grid.rows)
 
-        for y in range(self.current_pixel_grid.n_ver):
-            for x in range(self.current_pixel_grid.n_hor):
+        for y in range(self.current_pixel_grid.rows):
+            for x in range(self.current_pixel_grid.cols):
                 pixel = self.current_pixel_grid.grid[y,x]
                 if pixel != None:
                     pixel.has_stepped = False
