@@ -65,8 +65,32 @@ class Water(Pixel):
     def get_type(self):
         return "WATER"
 
+class Wood(Pixel):
+
+    def __init__(self, pos_x, pos_y):
+        Pixel.__init__(self, pos_x, pos_y)
+        self.color = (149, 85, 0)
+        self.buoyancy = 0.75
+
+    def update(self, world_grid):
+
+        for x in [0,-1,1]:
+            if world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1).buoyancy > self.buoyancy:
+                world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y-1))
+                return
+
+    def get_type(self):
+        return self.__class__.__name__.upper()
+        
+class Flame(Pixel):
+    pass
+
 class Pixel_Cursor(Pixel):
     def __init__(self, pos_x, pos_y):
         
         Pixel.__init__(self, pos_x, pos_y)
         self.color = (100,0,100)
+
+if __name__ == "__main__":
+
+    print(Wood(0,0).get_type())
