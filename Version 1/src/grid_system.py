@@ -3,11 +3,13 @@ from pixels import *
 
 class World_Grid:
 
-    def __init__(self, width, height, rows, cols):
+    def __init__(self, width, height, rows, cols, x_pos, y_pos):
         self.width = width
         self.height = height
         self.rows = rows
         self.cols = cols
+        self.x_pos = x_pos
+        self.y_pos = y_pos
         self.screen = pygame.Surface([width,height])
         
         if (width/cols > height/rows):
@@ -76,70 +78,14 @@ class World_Grid:
             self.current_pixel_grid[old_pos[1], old_pos[0]].pos_x = new_pos[0]
             self.current_pixel_grid[old_pos[1], old_pos[0]].pos_y = new_pos[1]
 
-    def set_pixel(self, x, y, type_string):
-        if type_string == "DEFAULT":
-            self.current_pixel_grid[y][x] = Grey(x,y)
-        elif type_string == "SAND":
-            self.current_pixel_grid[y][x] = Sand(x,y)
-        elif type_string == "WATER":
-            self.current_pixel_grid[y][x] = Water(x,y)
-        elif type_string == "WOOD":
-            self.current_pixel_grid[y][x] = Wood(x,y)
-        elif type_string == "FLAME":
-            self.current_pixel_grid[y][x] = Flame(x,y)
-
-
-
-# class Grid_Layer:
-    
-#     def __init__(self, rows, cols):
-#         self.rows = rows
-#         self.cols = cols
-#         self.grid = np.empty((rows, cols), dtype=object)
-
-#     def get_pixel(self, x, y):
-#         # y = self.rows - y -1
-#         return self.grid[y][x]
-
-#     def set_specific_pixel(self, x, y, pixel):
-#         pixel.pos_y = y
-#         pixel.pos_x = x
-
-#         # y = self.rows - y - 1
-#         self.grid[y][x] = pixel
-
-
-#     def remove_pixel(self, x, y):
-#         # y = self.rows - y - 1
-#         self.grid[y][x] = None
-
-    
-#     def set_pixel(self, x, y, type_string):
-#         # ny = self.rows - y - 1
-#         if type_string == "DEFAULT":
-#             self.grid[y][x] = Grey(x,y)
-#         elif type_string == "SAND":
-#             self.grid[y][x] = Sand(x,y)
-#         elif type_string == "WATER":
-#             self.grid[y][x] = Water(x,y)
-#         elif type_string == "WOOD":
-#             self.grid[y][x] = Wood(x,y)
-#         elif type_string == "FLAME":
-#             self.grid[y][x] = Flame(x,y)
-
-
-
-#     def fill_grid(self, type_string):
-#         for y in range(0, self.rows):
-#             for x in range(0, self.cols):
-    
-#                 if type_string == "DEFAULT":
-#                     self.grid[y][x] = Grey(x,y)
-#                 elif type_string == "SAND":
-#                     self.grid[y][x] = Sand(x,y)
-#                 elif type_string == "WATER":
-#                     self.grid[y][x] = Water(x,y)
-#                 elif type_string == "WOOD":
-#                     self.grid[y][x] = Wood(x,y)
-#                 elif type_string == "FLAME":
-#                     self.grid[y][x] = Flame(x,y)
+def grid_pixel_factory(x, y, type_string):
+    if type_string == "DEFAULT":
+        self.current_pixel_grid[y][x] = Grey(x,y)
+    elif type_string == "SAND":
+        self.current_pixel_grid[y][x] = Sand(x,y)
+    elif type_string == "WATER":
+        self.current_pixel_grid[y][x] = Water(x,y)
+    elif type_string == "WOOD":
+        self.current_pixel_grid[y][x] = Wood(x,y)
+    elif type_string == "FLAME":
+        self.current_pixel_grid[y][x] = Flame(x,y)
