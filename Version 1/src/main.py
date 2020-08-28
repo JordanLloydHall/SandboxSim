@@ -32,13 +32,15 @@ def event_update():
     global button_pressed
     update_pixel_grid_mouse_hover(world_grid_main)
     
-    if not button_pressed and pygame.mouse.get_pressed()[0] == 1:
-        mouse_pos = pygame.mouse.get_pos()
-        if(check_in_surface_bounds(mouse_pos, world_grid_main.x_pos, world_grid_main.y_pos, world_grid_main.width, world_grid_main.height)):
-            obj_pos = get_mouse_pos_relative_to_grid(mouse_pos, world_grid_main)
+    
+    mouse_pos = pygame.mouse.get_pos()
+    if(check_in_surface_bounds(mouse_pos, world_grid_main.x_pos, world_grid_main.y_pos, world_grid_main.width, world_grid_main.height)):
+        obj_pos = get_mouse_pos_relative_to_grid(mouse_pos, world_grid_main)
+        if not button_pressed and pygame.mouse.get_pressed()[0] == 1:
             if(world_grid_main.get_current_pixel(obj_pos[0], obj_pos[1]).get_type != held_pixel):
                 world_grid_main.set_pixel(obj_pos[0], obj_pos[1], held_pixel)
-                print(obj_pos)
+        if not button_pressed and pygame.mouse.get_pressed()[2] == 1:
+            world_grid_main.set_pixel(obj_pos[0], obj_pos[1])
 
     """
     if (pygame.mouse.get_pressed()[0] == 1):
