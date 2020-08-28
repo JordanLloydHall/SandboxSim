@@ -54,6 +54,8 @@ class World_Grid:
 
         self.current_pixel_grid = self.next_pixel_grid
 
+        self.layer_list = [current_pixel_grid]
+
     def get_current_pixel(self, x, y):
         return self.current_pixel_grid.grid[y,x] if self.current_pixel_grid.grid[y,x] else Pixel(x,y)
 
@@ -89,7 +91,7 @@ class Grid_Layer:
             self.grid[y][x] = Grey(x,y)
         elif type_string == "SAND":
             self.grid[y][x] = Sand(x,y)
-        elif type_string == "Water":
+        elif type_string == "WATER":
             self.grid[y][x] = Water(x,y)
 
 
@@ -103,6 +105,5 @@ class Grid_Layer:
                     self.grid[y][x] = Grey(x,y)
                 elif type_string == "SAND":
                     self.grid[y][x] = Sand(x,y)
-                elif type_string == "Water":
+                elif type_string == "WATER":
                     self.grid[y][x] = Water(x,y)
-
