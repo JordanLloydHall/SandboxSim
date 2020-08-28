@@ -58,7 +58,7 @@ if __name__ == "__main__":
     run = True
     debug_ticker = 0
     
-    world_grid_main = World_Grid(GRID_WIDTH, GRID_HEIGHT, NO_ROWS, NO_COLS)
+    world_grid_main = World_Grid(GRID_WIDTH, GRID_HEIGHT, NO_ROWS, NO_COLS, 20, 20)
     # layer_buffer = world_grid_main.make_layers(1)
     objs_layer = world_grid_main.current_pixel_grid
 

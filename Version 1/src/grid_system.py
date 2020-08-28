@@ -78,14 +78,17 @@ class World_Grid:
             self.current_pixel_grid[old_pos[1], old_pos[0]].pos_x = new_pos[0]
             self.current_pixel_grid[old_pos[1], old_pos[0]].pos_y = new_pos[1]
 
+    def set_pixel(self, x, y, type_string):
+        self.current_pixel_grid[y][x] = grid_pixel_factory(x,y,type_string)
+
 def grid_pixel_factory(x, y, type_string):
     if type_string == "DEFAULT":
-        self.current_pixel_grid[y][x] = Grey(x,y)
+        return Grey(x,y)
     elif type_string == "SAND":
-        self.current_pixel_grid[y][x] = Sand(x,y)
+        return Sand(x,y)
     elif type_string == "WATER":
-        self.current_pixel_grid[y][x] = Water(x,y)
+        return Water(x,y)
     elif type_string == "WOOD":
-        self.current_pixel_grid[y][x] = Wood(x,y)
+        return Wood(x,y)
     elif type_string == "FLAME":
-        self.current_pixel_grid[y][x] = Flame(x,y)
+        return Flame(x,y)
