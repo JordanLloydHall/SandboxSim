@@ -83,6 +83,10 @@ class World_Grid:
         # y = self.rows - y - 1
         self.current_pixel_grid[y][x] = grid_pixel_factory(x,y,type_string)
 
+    def set_next_pixel(self, x, y, type_string):
+        # y = self.rows - y - 1
+        self.next_pixel_grid[y][x] = grid_pixel_factory(x,y,type_string)
+
 def grid_pixel_factory(x, y, type_string):
     if type_string == "DEFAULT":
         return Grey(x,y)
@@ -94,3 +98,6 @@ def grid_pixel_factory(x, y, type_string):
         return Wood(x,y)
     elif type_string == "FLAME":
         return Flame(x,y)
+
+    elif type_string == "NONE":
+        return None
