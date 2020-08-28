@@ -5,14 +5,22 @@ from pixels import *
 
 
 def update_pixel_grid_mouse_hover(world_grid):
-    mousePos = pygame.mouse.get_pos()
+    mouse_pos = pygame.mouse.get_pos()
+    objPos = get_mouse_pos_relative_to_grid(mouse_pos, world_grid)
 
-    if(
-        ((mousePos[0] < GRID_X + GRID_WIDTH) and (mousePos[0] > GRID_X)) and 
-        ((mousePos[1] < GRID_Y + GRID_HEIGHT) and (mousePos[1] > GRID_Y))):
+    if(check_in_surface_bounds(mouse_pos, world_grid.x_pos, world_grid.y_pos, world_grid.width, world_grid.height)):
 
-        objPos = (int(np.trunc((mousePos[0] - GRID_X)/world_grid.pxwidth)), int(np.trunc((mousePos[1] - GRID_Y)/world_grid.pxwidth)))
+        
 
         pixel_cursor = Pixel_Cursor(objPos[0], objPos[1])
         pixel_cursor.draw_pixel(world_grid.screen, PX_SIZE)
 
+def get_mouse_pos_relative_to_grid(abs_mouse_pos, world_grid):
+    return (int(np.trunc((abs_mouse_pos[0] - world_grid.x_pos)/world_grid.pxwidth)), int(np.trunc((abs_mouse_pos[1] - world_grid.y_pos)/world_grid.pxwidth)))
+
+
+def check_in_surface_bounds(abs_mouse_pos,x, y, width, height, bounds_bool = False):
+    if ((abs_mouse_pos[0] < x + width) and (abs_mouse_pos[0] > x)) and ((abs_mouse_pos[1] < y + height) and (abs_mouse_pos[1] > y)):
+        bounds_bool = not bounds_bool
+
+    return bounds_bool

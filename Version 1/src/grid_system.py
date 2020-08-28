@@ -3,11 +3,13 @@ from pixels import *
 
 class World_Grid:
 
-    def __init__(self, width, height, rows, cols):
+    def __init__(self, width, height, rows, cols, x_pos, y_pos):
         self.width = width
         self.height = height
         self.rows = rows
         self.cols = cols
+        self.x_pos = x_pos
+        self.y_pos = y_pos
         self.screen = pygame.Surface([width,height])
         
         if (width/cols > height/rows):
@@ -81,12 +83,26 @@ class Grid_Layer:
         self.cols = cols
         self.grid = np.empty((rows, cols), dtype=object)
 
-    def get_pixel(self, x, y):
-        y = self.rows - y -1
+    def get_pixel(self, pos):
+        x = pos[0]
+        y = self.rows - pos[1] -1
         return self.grid[y][x]
     
-    def set_pixel(self, x, y, type_string):
-        y = self.rows - y -1
+    def set_pixel(self, pos, type_string):
+        x = pos[0]
+        y = self.rows - pos[1] -1
+        self.grid_pixel_factory(x, y,type_string)
+        
+
+
+    def fill_grid(self, type_string):
+        for y in range(0, self.rows):
+            for x in range(0, self.cols):
+    
+                self.grid_pixel_factory(x, y,type_string)
+
+    def grid_pixel_factory(self, x, y, type_string):
+
         if type_string == "DEFAULT":
             self.grid[y][x] = Grey(x,y)
         elif type_string == "SAND":
@@ -97,21 +113,4 @@ class Grid_Layer:
             self.grid[y][x] = Wood(x,y)
         elif type_string == "FLAME":
             self.grid[y][x] = Flame(x,y)
-
-
-
-    def fill_grid(self, type_string):
-        for y in range(0, self.rows):
-            for x in range(0, self.cols):
-    
-                if type_string == "DEFAULT":
-                    self.grid[y][x] = Grey(x,y)
-                elif type_string == "SAND":
-                    self.grid[y][x] = Sand(x,y)
-                elif type_string == "WATER":
-                    self.grid[y][x] = Water(x,y)
-                elif type_string == "WOOD":
-                    self.grid[y][x] = Wood(x,y)
-                elif type_string == "FLAME":
-                    self.grid[y][x] = Flame(x,y)
 
