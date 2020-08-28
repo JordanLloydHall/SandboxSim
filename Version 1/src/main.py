@@ -6,20 +6,23 @@ So far defines the initial loop
 import sys, pygame, time
 import numpy as np
 from pixels import *
+from pygame.locals import *
 from grid_system import *
 from mouse_events import *
 from constants import *
 
 # ---- start
 pygame.init()
-screen_size = screen_width, screen_height = 1200, 700
+padding = 60
+screen_size = screen_width, screen_height = GRID_WIDTH + padding, GRID_HEIGHT + padding
 bg_colour = 0,0,0
 
-screen = pygame.display.set_mode(screen_size)
+screen = pygame.display.set_mode(screen_size, RESIZABLE)
 held_pixel = 0
 
 cycle_left_button = False
 cycle_right_button = False
+is_mouse_down = False
 
 # ---- Calculate width of pixel (including padding) = 50
 def pixel_fullwidth():
@@ -94,19 +97,38 @@ if __name__ == "__main__":
     world_grid_main.set_pixel(5,5,"SAND")
 
 
+
+    is_resized = False
+    updateSize = 0
+
     # ---- Main Loop
     while run:
+        screen.fill((0, 0, 0))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT: 
                 sys.exit()
-        screen.fill(bg_colour)
+
+            if event.type == MOUSEBUTTONDOWN:
+                is_mouse_down = True
+            if event.type == MOUSEBUTTONUP:
+                is_mouse_down = False
+
+            if event.type == VIDEORESIZE:
+                is_resized = True
+                updateSize = event.size
+
+            if event.type == pygame.ACTIVEEVENT and is_resized:
+                screen = pygame.display.set_mode(updateSize, RESIZABLE)
+                is_resized = False
+
+        print(is_mouse_down)
 
         world_grid_main.screen.fill((25,25,25))
         event_update()
         world_grid_main.draw_layers()   
         screen.blit(world_grid_main.screen, (world_grid_main.x_pos,world_grid_main.y_pos))
-        pygame.display.flip() 
+        pygame.display.update()
         time.sleep(0.02)
 
         world_grid_main.step_pixels()
