@@ -62,7 +62,7 @@ if __name__ == "__main__":
     # layer_buffer = world_grid_main.make_layers(1)
     objs_layer = world_grid_main.current_pixel_grid
 
-    # objs_layer.set_pixel(5,5, "SAND")
+    world_grid_main.set_pixel(5,5,"SAND")
 
 
     # ---- Main Loop

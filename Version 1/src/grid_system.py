@@ -63,10 +63,13 @@ class World_Grid:
         # y = self.rows - y - 1
         return self.next_pixel_grid[y,x] if self.next_pixel_grid[y,x] else Pixel(x,y)
 
+    def is_valid_position(self, x, y):
+        return 0 <= x < self.cols and 0 <= y < self.rows
+
     def move_pixel(self, old_pos, new_pos):
         # old_pos = (old_pos[0], self.rows - old_pos[1] -1)
         # new_pos = (new_pos[0], self.rows - new_pos[1] -1)
-        if 0 <= old_pos[0] < self.width and 0 <= old_pos[1] < self.height and 0 <= new_pos[0] < self.width and 0 <= new_pos[1] < self.height:
+        if self.is_valid_position(old_pos[0],old_pos[1]) and self.is_valid_position(new_pos[0],new_pos[1]):
 
             self.next_pixel_grid[old_pos[1], old_pos[0]] = self.current_pixel_grid[new_pos[1], new_pos[0]]
             if self.next_pixel_grid[old_pos[1], old_pos[0]] != None:
@@ -79,6 +82,7 @@ class World_Grid:
             self.current_pixel_grid[old_pos[1], old_pos[0]].pos_y = new_pos[1]
 
     def set_pixel(self, x, y, type_string):
+        # y = self.rows - y - 1
         self.current_pixel_grid[y][x] = grid_pixel_factory(x,y,type_string)
 
 def grid_pixel_factory(x, y, type_string):
