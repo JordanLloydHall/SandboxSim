@@ -4,7 +4,7 @@ import random
 # ---- Pixel Objects
 class Pixel:
 
-    pixel_types = list(enumerate(["DEFAULT", "SAND", "WATER"], 0))
+    pixel_types = list(enumerate(["DEFAULT", "SAND", "WATER", "FLAME"], 0))
 
     def __init__(self, pos_x, pos_y):
         self.pos_x = pos_x
@@ -52,7 +52,7 @@ class Sand(Pixel):
 
     def update(self, world_grid):
 
-        if world_grid.is_valid_position(self.pos_x,self.pos_y+1) and world_grid.get_current_pixel(self.pos_x, self.pos_y-1).get_type() == "DEFAULT":
+        if world_grid.is_valid_position(self.pos_x,self.pos_y+1) and world_grid.get_current_pixel(self.pos_x, self.pos_y+1).get_type() == "DEFAULT":
             if world_grid.get_next_pixel(self.pos_x, self.pos_y+1).get_type() == "DEFAULT":
                 world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x, self.pos_y+1))
                 return
@@ -76,7 +76,7 @@ class Water(Pixel):
 
     def update(self, world_grid):
 
-        if world_grid.is_valid_position(self.pos_x,self.pos_y+1) and world_grid.get_current_pixel(self.pos_x, self.pos_y-1).get_type() == "DEFAULT":
+        if world_grid.is_valid_position(self.pos_x,self.pos_y+1) and world_grid.get_current_pixel(self.pos_x, self.pos_y+1).get_type() == "DEFAULT":
             if world_grid.get_next_pixel(self.pos_x, self.pos_y+1).get_type() == "DEFAULT":
                 world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x, self.pos_y+1))
                 return
@@ -117,7 +117,7 @@ class Flame(Pixel):
 
     def __init__(self, pos_x, pos_y):
         Pixel.__init__(self, pos_x, pos_y)
-        self.color = (255,0,0)
+        self.color = (149,19,19)
         self.buoyancy = 0
 
     def update(self, world_grid):
