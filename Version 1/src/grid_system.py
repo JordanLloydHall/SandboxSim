@@ -89,8 +89,13 @@ class Grid_Layer:
             self.grid[y][x] = Grey(x,y)
         elif type_string == "SAND":
             self.grid[y][x] = Sand(x,y)
-        elif type_string == "Water":
+        elif type_string == "WATER":
             self.grid[y][x] = Water(x,y)
+        elif type_string == "WOOD":
+            self.grid[y][x] = Wood(x,y)
+        elif type_string == "FLAME":
+            self.grid[y][x] = Flame(x,y)
+
 
 
     def fill_grid(self, type_string):
@@ -103,6 +108,10 @@ class Grid_Layer:
                     self.grid[y][x] = Grey(x,y)
                 elif type_string == "SAND":
                     self.grid[y][x] = Sand(x,y)
-                elif type_string == "Water":
+                elif type_string == "WATER":
                     self.grid[y][x] = Water(x,y)
+                elif type_string == "WOOD":
+                    self.grid[y][x] = Wood(x,y)
+                elif type_string == "FLAME":
+                    self.grid[y][x] = Flame(x,y)
 
