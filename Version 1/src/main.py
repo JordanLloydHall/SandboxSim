@@ -13,7 +13,7 @@ from constants import *
 # ---- start
 pygame.init()
 screen_size = screen_width, screen_height = 1200, 700
-bgColour = 0,0,0
+bg_colour = 0,0,0
 
 screen = pygame.display.set_mode(screen_size)
 
@@ -28,7 +28,7 @@ def pixel_width():
     return pixel_fullwidth()/2
 
 def event_update():
-        update_pixel_grid_mouse_hover(world_grid_main)
+    update_pixel_grid_mouse_hover(world_grid_main)
 
 # ---- Initialisation
 if __name__ == "__main__":
@@ -44,9 +44,9 @@ if __name__ == "__main__":
         for event in pygame.event.get():
             if event.type == pygame.QUIT: 
                 sys.exit()
-        screen.fill(bgColour)
+        screen.fill(bg_colour)
 
-        world_grid_main.screen.fill((25,25, 25))
+        world_grid_main.screen.fill((25,25,25))
         event_update()
 
         world_grid_main.draw_layers()

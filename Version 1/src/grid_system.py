@@ -84,22 +84,27 @@ class Grid_Layer:
         self.grid = np.empty((rows, cols), dtype=object)
 
     def get_pixel(self, x, y):
-        return self.grid[self.rows - y][x]
+        y = self.rows - y -1
+        return self.grid[y][x]
     
     def set_pixel(self, x, y, type_string):
+        y = self.rows - y -1
         if type_string == "DEFAULT":
             self.grid[y][x] = Grey(x,y)
         elif type_string == "SAND":
             self.grid[y][x] = Sand(x,y)
         elif type_string == "WATER":
             self.grid[y][x] = Water(x,y)
+        elif type_string == "WOOD":
+            self.grid[y][x] = Wood(x,y)
+        elif type_string == "FLAME":
+            self.grid[y][x] = Flame(x,y)
+
 
 
     def fill_grid(self, type_string):
         for y in range(0, self.rows):
             for x in range(0, self.cols):
-                pos_x = x
-                pos_y = y
     
                 if type_string == "DEFAULT":
                     self.grid[y][x] = Grey(x,y)
@@ -107,3 +112,7 @@ class Grid_Layer:
                     self.grid[y][x] = Sand(x,y)
                 elif type_string == "WATER":
                     self.grid[y][x] = Water(x,y)
+                elif type_string == "WOOD":
+                    self.grid[y][x] = Wood(x,y)
+                elif type_string == "FLAME":
+                    self.grid[y][x] = Flame(x,y)
