@@ -3,6 +3,9 @@ import random
 
 # ---- Pixel Objects
 class Pixel:
+
+    pixel_types = list(enumerate(["DEFAULT", "SAND", "WATER"], 0))
+
     def __init__(self, pos_x, pos_y):
         self.pos_x = pos_x
         self.pos_y = pos_y
@@ -11,6 +14,9 @@ class Pixel:
         self.flammable = 0
 
         self.has_stepped = False
+        self.color = None
+
+        
 
     def draw_pixel(self, screen, pxwidth):
         px_fac = 1
@@ -19,18 +25,20 @@ class Pixel:
         pygame.draw.rect(screen, self.color, ((self.pos_x +(1-px_fac)/2) * pxwidth, ((self.pos_y + (1-px_fac)/2) * pxwidth), pxwidth * px_fac, pxwidth * px_fac))
 
     def get_type(self):
-        return "DEFAULT"
+        if (self.__class__.__name__.upper() == "PIXEL"):
+            return "DEFAULT"
+        else:
+            return self.__class__.__name__.upper()
+    def get_color(self):
+        return self.color
 
-class Grey(Pixel):
+class Default(Pixel):
     def __init__(self, pos_x, pos_y):
         Pixel.__init__(self, pos_x, pos_y)
         self.color = (25,25,25)
 
     def update(self, world_grid):
         return
-    
-    def get_type(self):
-        return "DEFAULT"
 
 
 class Sand(Pixel):
@@ -48,9 +56,6 @@ class Sand(Pixel):
             if world_grid.is_valid_position(self.pos_x+x,self.pos_y-1) and world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1).buoyancy < self.buoyancy:
                 world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y-1))
                 return
-
-    def get_type(self):
-        return "SAND"
 
 class Water(Pixel):
     def __init__(self, pos_x, pos_y):
@@ -76,9 +81,6 @@ class Water(Pixel):
                 world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x-1,self.pos_y))
                 return
 
-    def get_type(self):
-        return "WATER"
-
 class Wood(Pixel):
 
     def __init__(self, pos_x, pos_y):
@@ -93,9 +95,6 @@ class Wood(Pixel):
             if world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1).buoyancy > self.buoyancy:
                 world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y-1))
                 return
-
-    def get_type(self):
-        return self.__class__.__name__.upper()
         
 class Flame(Pixel):
 
@@ -130,16 +129,13 @@ class Flame(Pixel):
             world_grid.set_next_pixel(self.pos_x, self.pos_y, "NONE")
 
 
-    def get_type(self):
-        return self.__class__.__name__.upper()
-
     
 
 class Pixel_Cursor(Pixel):
-    def __init__(self, pos_x, pos_y):
+    def __init__(self, pos_x, pos_y, color):
         
         Pixel.__init__(self, pos_x, pos_y)
-        self.color = (100,0,100)
+        self.color = color
 
 if __name__ == "__main__":
 

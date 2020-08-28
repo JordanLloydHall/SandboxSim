@@ -16,8 +16,10 @@ screen_size = screen_width, screen_height = 1200, 700
 bg_colour = 0,0,0
 
 screen = pygame.display.set_mode(screen_size)
-button_pressed = False
-held_pixel = "WATER"
+held_pixel = 0
+
+cycle_left_button = False
+cycle_right_button = False
 
 # ---- Calculate width of pixel (including padding) = 50
 def pixel_fullwidth():
@@ -29,16 +31,44 @@ def pixel_width():
 
 
 def event_update():
-    global button_pressed
-    update_pixel_grid_mouse_hover(world_grid_main)
+    global held_pixel
+    global cycle_left_button
+    global cycle_right_button
+    update_pixel_grid_mouse_hover(world_grid_main, held_pixel)
     
-    if not button_pressed and pygame.mouse.get_pressed()[0] == 1:
-        mouse_pos = pygame.mouse.get_pos()
-        if(check_in_surface_bounds(mouse_pos, world_grid_main.x_pos, world_grid_main.y_pos, world_grid_main.width, world_grid_main.height)):
-            obj_pos = get_mouse_pos_relative_to_grid(mouse_pos, world_grid_main)
-            if(world_grid_main.get_current_pixel(obj_pos[0], obj_pos[1]).get_type != held_pixel):
-                world_grid_main.set_pixel(obj_pos[0], obj_pos[1], held_pixel)
-                print(obj_pos)
+    
+    mouse_pos = pygame.mouse.get_pos()
+    if(check_in_surface_bounds(mouse_pos, world_grid_main.x_pos, world_grid_main.y_pos, world_grid_main.width, world_grid_main.height)):
+        obj_pos = get_mouse_pos_relative_to_grid(mouse_pos, world_grid_main)
+        if pygame.mouse.get_pressed()[0] == 1:
+            if(world_grid_main.get_current_pixel(obj_pos[0], obj_pos[1]).get_type != Pixel.pixel_types[held_pixel][1]):
+                world_grid_main.set_pixel(obj_pos[0], obj_pos[1], Pixel.pixel_types[held_pixel][1])
+        if pygame.mouse.get_pressed()[2] == 1:
+            world_grid_main.set_pixel(obj_pos[0], obj_pos[1])
+    
+    keys = pygame.key.get_pressed()
+    if not cycle_left_button and keys[pygame.K_LEFT]:
+        held_pixel -= 1
+        if(held_pixel < 0):
+            held_pixel = len(Pixel.pixel_types) - 1
+        print(Pixel.pixel_types[held_pixel][1])
+    if not cycle_right_button and keys[pygame.K_RIGHT]:
+        held_pixel += 1
+        if(held_pixel > len(Pixel.pixel_types) - 1):
+            held_pixel = 0
+        print(Pixel.pixel_types[held_pixel][1])
+    
+    if (keys[pygame.K_LEFT]):
+        cycle_left_button = True
+    else:
+        cycle_left_button = False
+    
+    if (keys[pygame.K_RIGHT]):
+        cycle_right_button = True
+    else:
+        cycle_right_button = False
+
+
 
     """
     if (pygame.mouse.get_pressed()[0] == 1):
@@ -74,7 +104,6 @@ if __name__ == "__main__":
 
         world_grid_main.screen.fill((25,25,25))
         event_update()
-
         world_grid_main.draw_layers()   
         screen.blit(world_grid_main.screen, (world_grid_main.x_pos,world_grid_main.y_pos))
         pygame.display.flip() 
