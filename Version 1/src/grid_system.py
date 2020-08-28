@@ -82,9 +82,11 @@ class Grid_Layer:
         self.grid = np.empty((rows, cols), dtype=object)
 
     def get_pixel(self, x, y):
-        return self.grid[self.rows - y][x]
+        y = self.rows - y -1
+        return self.grid[y][x]
     
     def set_pixel(self, x, y, type_string):
+        y = self.rows - y -1
         if type_string == "DEFAULT":
             self.grid[y][x] = Grey(x,y)
         elif type_string == "SAND":
