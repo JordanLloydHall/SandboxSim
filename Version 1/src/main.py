@@ -48,7 +48,6 @@ if __name__ == "__main__":
 
         world_grid_main.screen.fill((25,25, 25))
         event_update()
-        objs_layer.set_pixel(NO_COLS-1,NO_ROWS-1,"SAND")
         world_grid_main.draw_layers()   
         screen.blit(world_grid_main.screen, (GRID_X,GRID_Y))
         pygame.display.flip() 
