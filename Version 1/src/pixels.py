@@ -44,10 +44,19 @@ class Sand(Pixel):
 
     def update(self, world_grid):
 
+        if world_grid.is_valid_position(self.pos_x,self.pos_y+1) and world_grid.get_current_pixel(self.pos_x, self.pos_y-1).get_type() == "DEFAULT":
+            if world_grid.get_next_pixel(self.pos_x, self.pos_y+1).get_type() == "DEFAULT":
+                world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x, self.pos_y+1))
+                return
+
+
         for x in [0,-1,1]:
             if world_grid.is_valid_position(self.pos_x+x,self.pos_y-1) and world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1).buoyancy < self.buoyancy:
-                world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y-1))
-                return
+                
+                if world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1) == world_grid.get_next_pixel(self.pos_x+x, self.pos_y-1):
+                    # print(x)
+                    world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y-1))
+                    return
 
     def get_type(self):
         return "SAND"
@@ -62,10 +71,18 @@ class Water(Pixel):
 
     def update(self, world_grid):
 
+        if world_grid.is_valid_position(self.pos_x,self.pos_y+1) and world_grid.get_current_pixel(self.pos_x, self.pos_y-1).get_type() == "DEFAULT":
+            if world_grid.get_next_pixel(self.pos_x, self.pos_y+1).get_type() == "DEFAULT":
+                world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x, self.pos_y+1))
+                return
+
         for x in [0,-1,1]:
             if world_grid.is_valid_position(self.pos_x+x,self.pos_y-1) and world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1).buoyancy < self.buoyancy:
-                world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y-1))
-                return
+                
+                if world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1) == world_grid.get_next_pixel(self.pos_x+x, self.pos_y-1):
+                    # print(x)
+                    world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y-1))
+                    return
 
         if random.random()<0.5:
             if world_grid.is_valid_position(self.pos_x+1,self.pos_y) and world_grid.get_next_pixel(self.pos_x+1,self.pos_y).get_type() == "DEFAULT" and world_grid.get_current_pixel(self.pos_x+1,self.pos_y).get_type() == "DEFAULT":
