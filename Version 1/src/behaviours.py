@@ -21,3 +21,9 @@ def flame_spread(px, world_grid, vanish = True):
     if vanish:
         return has_spread
 
+
+def gravity_fall(px, world_grid):
+    if world_grid.is_valid_position(px.pos_x,px.pos_y+1) and world_grid.get_current_pixel(px.pos_x, px.pos_y+1).get_type() == "DEFAULT":
+            if world_grid.get_next_pixel(px.pos_x, px.pos_y+1).get_type() == "DEFAULT":
+                world_grid.move_pixel((px.pos_x,px.pos_y), (px.pos_x, px.pos_y+1))
+                return True
