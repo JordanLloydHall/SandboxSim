@@ -57,10 +57,13 @@ def event_update():
 if __name__ == "__main__":
     run = True
     debug_ticker = 0
+    
+    world_grid_main = World_Grid(GRID_WIDTH, GRID_HEIGHT, NO_ROWS, NO_COLS)
+    # layer_buffer = world_grid_main.make_layers(1)
+    objs_layer = world_grid_main.current_pixel_grid
 
-    world_grid_main = World_Grid(GRID_WIDTH, GRID_HEIGHT, NO_ROWS, NO_COLS, 20, 20)
-    layer_buffer = world_grid_main.make_layers(1)
-    objs_layer = layer_buffer[0]
+    # objs_layer.set_pixel(5,5, "SAND")
+
 
     # ---- Main Loop
     while run:
@@ -72,8 +75,10 @@ if __name__ == "__main__":
 
         world_grid_main.screen.fill((25,25,25))
         event_update()
+
         world_grid_main.draw_layers()   
         screen.blit(world_grid_main.screen, (world_grid_main.x_pos,world_grid_main.y_pos))
         pygame.display.flip() 
         time.sleep(0.02)
+
         world_grid_main.step_pixels()
