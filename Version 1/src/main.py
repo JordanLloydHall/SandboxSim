@@ -12,7 +12,7 @@ from constants import *
 
 # ---- start
 pygame.init()
-screen_size = screen_width, screen_height = 1200, 700
+screen_size = screen_width, screen_height = 1200, 1200
 bg_colour = 0,0,0
 
 screen = pygame.display.set_mode(screen_size)
@@ -41,7 +41,7 @@ def event_update():
     if(check_in_surface_bounds(mouse_pos, world_grid_main.x_pos, world_grid_main.y_pos, world_grid_main.width, world_grid_main.height)):
         obj_pos = get_mouse_pos_relative_to_grid(mouse_pos, world_grid_main)
         if pygame.mouse.get_pressed()[0] == 1:
-            if(world_grid_main.get_current_pixel(obj_pos[0], obj_pos[1]).get_type != Pixel.pixel_types[held_pixel][1]):
+            if(world_grid_main.get_current_pixel(obj_pos[0], obj_pos[1]).get_type() == Pixel.pixel_types[0][1]):
                 world_grid_main.set_pixel(obj_pos[0], obj_pos[1], Pixel.pixel_types[held_pixel][1])
         if pygame.mouse.get_pressed()[2] == 1:
             world_grid_main.set_pixel(obj_pos[0], obj_pos[1])
@@ -51,12 +51,12 @@ def event_update():
         held_pixel -= 1
         if(held_pixel < 0):
             held_pixel = len(Pixel.pixel_types) - 1
-        print(Pixel.pixel_types[held_pixel][1])
+        #print(Pixel.pixel_types[held_pixel][1])
     if not cycle_right_button and keys[pygame.K_RIGHT]:
         held_pixel += 1
         if(held_pixel > len(Pixel.pixel_types) - 1):
             held_pixel = 0
-        print(Pixel.pixel_types[held_pixel][1])
+        #print(Pixel.pixel_types[held_pixel][1])
     
     if (keys[pygame.K_LEFT]):
         cycle_left_button = True
@@ -107,6 +107,6 @@ if __name__ == "__main__":
         world_grid_main.draw_layers()   
         screen.blit(world_grid_main.screen, (world_grid_main.x_pos,world_grid_main.y_pos))
         pygame.display.flip() 
-        time.sleep(0.02)
+        time.sleep(0.01)
 
         world_grid_main.step_pixels()
