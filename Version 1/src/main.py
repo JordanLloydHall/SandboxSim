@@ -35,10 +35,9 @@ def event_update():
     if not button_pressed and pygame.mouse.get_pressed()[0] == 1:
         mouse_pos = pygame.mouse.get_pos()
         if(check_in_surface_bounds(mouse_pos, world_grid_main.x_pos, world_grid_main.y_pos, world_grid_main.width, world_grid_main.height)):
-            temp_obj_pos = get_mouse_pos_relative_to_grid(mouse_pos, world_grid_main)
-            obj_pos = (temp_obj_pos[0], world_grid_main.rows - temp_obj_pos[1] -1)
-            if(objs_layer.get_pixel(obj_pos) == None or objs_layer.get_pixel(obj_pos).get_type != held_pixel):
-                objs_layer.set_pixel(obj_pos, held_pixel)
+            obj_pos = get_mouse_pos_relative_to_grid(mouse_pos, world_grid_main)
+            if(world_grid_main.get_current_pixel(obj_pos[0], obj_pos[1]).get_type != held_pixel):
+                world_grid_main.set_pixel(obj_pos[0], obj_pos[1], held_pixel)
                 print(obj_pos)
 
     """

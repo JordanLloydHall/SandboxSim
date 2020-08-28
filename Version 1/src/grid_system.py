@@ -56,11 +56,9 @@ class World_Grid:
         self.current_pixel_grid = self.next_pixel_grid
 
     def get_current_pixel(self, x, y):
-        # y = self.rows - y - 1
         return self.current_pixel_grid[y,x] if self.current_pixel_grid[y,x] else Pixel(x,y)
 
     def get_next_pixel(self, x, y):
-        # y = self.rows - y - 1
         return self.next_pixel_grid[y,x] if self.next_pixel_grid[y,x] else Pixel(x,y)
 
     def move_pixel(self, old_pos, new_pos):
