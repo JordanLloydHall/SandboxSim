@@ -36,8 +36,11 @@ if __name__ == "__main__":
     debug_ticker = 0
 
     world_grid_main = World_Grid(GRID_WIDTH, GRID_HEIGHT, NO_ROWS, NO_COLS)
-    layer_buffer = world_grid_main.make_layers(1)
-    objs_layer = layer_buffer[0]
+    # layer_buffer = world_grid_main.make_layers(1)
+    objs_layer = world_grid_main.current_pixel_grid
+
+    # objs_layer.set_pixel(5,5, "SAND")
+    
 
     # ---- Main Loop
     while run:
@@ -52,6 +55,6 @@ if __name__ == "__main__":
         world_grid_main.draw_layers()
         screen.blit(world_grid_main.screen, (GRID_X,GRID_Y))
         pygame.display.flip()
-        time.sleep(0.02)
+        time.sleep(0.5)
 
         world_grid_main.step_pixels()
