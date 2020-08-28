@@ -85,7 +85,7 @@ class World_Grid:
 
 def grid_pixel_factory(x, y, type_string):
     if type_string == "DEFAULT":
-        return Grey(x,y)
+        return Default(x,y)
     elif type_string == "SAND":
         return Sand(x,y)
     elif type_string == "WATER":

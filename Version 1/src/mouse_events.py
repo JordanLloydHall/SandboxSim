@@ -2,17 +2,19 @@ from constants import *
 import pygame
 import numpy as np
 from pixels import *
+from grid_system import grid_pixel_factory
 
 
-def update_pixel_grid_mouse_hover(world_grid):
+def update_pixel_grid_mouse_hover(world_grid, held_pixel):
     mouse_pos = pygame.mouse.get_pos()
     objPos = get_mouse_pos_relative_to_grid(mouse_pos, world_grid)
 
     if(check_in_surface_bounds(mouse_pos, world_grid.x_pos, world_grid.y_pos, world_grid.width, world_grid.height)):
 
-        
+        colour = grid_pixel_factory(0,0,Pixel.pixel_types[held_pixel][1]).get_color()
+        print(colour)
 
-        pixel_cursor = Pixel_Cursor(objPos[0], objPos[1])
+        pixel_cursor = Pixel_Cursor(objPos[0], objPos[1], colour)
         pixel_cursor.draw_pixel(world_grid.screen, PX_SIZE)
 
 def get_mouse_pos_relative_to_grid(abs_mouse_pos, world_grid):
