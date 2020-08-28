@@ -1,5 +1,4 @@
 import pygame
-from mouse_events import check_in_surface_bounds
 
 # ---- Pixel Objects
 class Pixel:
@@ -44,7 +43,7 @@ class Sand(Pixel):
     def update(self, world_grid):
 
         for x in [0,-1,1]:
-            if world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1).buoyancy > self.buoyancy and world_grid.is_valid_position(self.pos_x+x,self.pos_y+1):
+            if world_grid.is_valid_position(self.pos_x+x,self.pos_y+1) and world_grid.get_current_pixel(self.pos_x+x, self.pos_y+1).buoyancy > self.buoyancy:
                 world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y+1))
                 return
 
@@ -62,7 +61,7 @@ class Water(Pixel):
     def update(self, world_grid):
 
         for x in [0,-1,1]:
-            if world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1).buoyancy > self.buoyancy and world_grid.is_valid_position(self.pos_x+x,self.pos_y+1):
+            if world_grid.is_valid_position(self.pos_x+x,self.pos_y+1) and world_grid.get_current_pixel(self.pos_x+x, self.pos_y+1).buoyancy > self.buoyancy:
                 world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y+1))
                 return
 
