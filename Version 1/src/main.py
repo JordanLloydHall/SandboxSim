@@ -23,14 +23,6 @@ held_pixel = 0
 cycle_left_button = False
 cycle_right_button = False
 
-# ---- Calculate width of pixel (including padding) = 50
-def pixel_fullwidth():
-    return screen_width/NO_ROWS
-
-# ---- Calculate width of pixel (not including padding) = 25
-def pixel_width():
-    return pixel_fullwidth()/2
-
 
 def event_update():
     global held_pixel
@@ -95,10 +87,7 @@ if __name__ == "__main__":
 
     world_grid_main.set_pixel(5,5,"SAND")
 
-
-
     is_resized = False
-    updateSize = 0
 
     # ---- Main Loop
     while run:
@@ -110,10 +99,14 @@ if __name__ == "__main__":
 
             if event.type == VIDEORESIZE:
                 is_resized = True
-                updateSize = event.size
+                screen_size = event.size
+                screen_width = screen_size[0]
+                screen_height = screen_size[1]
 
             if event.type == pygame.ACTIVEEVENT and is_resized:
-                screen = pygame.display.set_mode(updateSize, RESIZABLE)
+                screen = pygame.display.set_mode(screen_size, RESIZABLE)
+                world_grid_main.update_dimensions(screen_width, screen_height, padding)
+
                 is_resized = False
 
         world_grid_main.screen.fill((25,25,25))
