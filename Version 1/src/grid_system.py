@@ -119,5 +119,7 @@ def grid_pixel_factory(x, y, type_string):
         return Wood(x,y)
     elif type_string == "FLAME":
         return Flame(x,y)
+    elif type_string == "CLONE":
+        return Clone(x,y)
     elif type_string == "NONE":
         return None

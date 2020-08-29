@@ -13,6 +13,7 @@ from constants import *
 
 # ---- start
 pygame.init()
+
 padding = 20
 screen_size = screen_width, screen_height = GRID_WIDTH + padding*2, GRID_HEIGHT + padding*2
 bg_colour = 0,0,0
@@ -113,7 +114,9 @@ if __name__ == "__main__":
         event_update()
         world_grid_main.draw_layers()   
         screen.blit(world_grid_main.screen, (world_grid_main.x_pos,world_grid_main.y_pos))
+
         pygame.display.update()
         time.sleep(0.02)
+
 
         world_grid_main.step_pixels()
