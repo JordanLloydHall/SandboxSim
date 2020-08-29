@@ -4,7 +4,7 @@ import random
 # ---- Pixel Objects
 class Pixel:
 
-    pixel_types = list(enumerate(["DEFAULT", "SAND", "WATER", "FLAME"], 0))
+    pixel_types = list(enumerate(["DEFAULT", "SAND", "WATER", "FLAME", "CLONE"], 0))
 
     def __init__(self, pos_x, pos_y):
         self.pos_x = pos_x
@@ -81,7 +81,7 @@ class Water(Pixel):
                 world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x, self.pos_y+1))
                 return
 
-        for x in [0,-1,1]:
+        for x in [0]:
             if world_grid.is_valid_position(self.pos_x+x,self.pos_y-1) and world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1).buoyancy < self.buoyancy:
                 
                 if world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1) == world_grid.get_next_pixel(self.pos_x+x, self.pos_y-1):
@@ -97,6 +97,38 @@ class Water(Pixel):
             if world_grid.is_valid_position(self.pos_x-1,self.pos_y) and world_grid.get_next_pixel(self.pos_x-1,self.pos_y).get_type() == "DEFAULT" and world_grid.get_current_pixel(self.pos_x-1,self.pos_y).get_type() == "DEFAULT":
                 world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x-1,self.pos_y))
                 return
+
+class Clone(Pixel):
+    def __init__(self, pos_x, pos_y):
+        
+        Pixel.__init__(self, pos_x, pos_y)
+        self.color = (255,0,255)
+
+        self.buoyancy = 1
+
+    def update(self, world_grid):
+
+        found_clonable = False
+        observed_pixel = None
+        for y in [-1,0,1]: # Checks the surroundings for a pixel to clone.
+            for x in [-1,0,1]:
+                if world_grid.is_valid_position(self.pos_x+x,self.pos_y+y) and not (x==0 and y==0):
+                    candidate_pixel = world_grid.get_current_pixel(self.pos_x+x, self.pos_y+y)
+                    if candidate_pixel.get_type() != "CLONE" and candidate_pixel.get_type() != "DEFAULT":
+                        observed_pixel = candidate_pixel
+                        found_clonable = True
+
+
+        if not found_clonable:
+            return
+
+        for y1 in [-1,0,1]: # Looks for a spot to clone the found pixel and clones it
+            for x1 in [-1,0,1]:
+
+                if world_grid.is_valid_position(self.pos_x+x1,self.pos_y+y1) and not (x1==0 and y1==0):
+                    candidate_place = (self.pos_x+x1, self.pos_y+y1)
+                    if world_grid.get_next_pixel(*candidate_place).get_type() == "DEFAULT":
+                        world_grid.set_next_pixel(*candidate_place, observed_pixel.get_type())    
 
 class Wood(Pixel):
 

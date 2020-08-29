@@ -12,7 +12,7 @@ from constants import *
 
 # ---- start
 pygame.init()
-screen_size = screen_width, screen_height = 1200, 700
+screen_size = screen_width, screen_height = 1200, 1200
 bg_colour = 0,0,0
 
 screen = pygame.display.set_mode(screen_size)
@@ -107,6 +107,6 @@ if __name__ == "__main__":
         world_grid_main.draw_layers()   
         screen.blit(world_grid_main.screen, (world_grid_main.x_pos,world_grid_main.y_pos))
         pygame.display.flip() 
-        time.sleep(0.02)
+        time.sleep(0.005)
 
         world_grid_main.step_pixels()
