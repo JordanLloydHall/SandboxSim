@@ -5,7 +5,7 @@ from behaviours import *
 # ---- Pixel Objects
 class Pixel:
 
-    pixel_types = list(enumerate(["DEFAULT", "SAND", "WATER", "FLAME", "LAVA"], 0))
+    pixel_types = list(enumerate(["DEFAULT", "SAND", "WATER","WOOD", "FLAME", "LAVA", "STONE", "NITRO"], 0))
 
     def __init__(self, pos_x, pos_y):
         self.pos_x = pos_x
@@ -53,16 +53,13 @@ class Sand(Pixel):
 
     def update(self, world_grid):
 
-        gravity_fall(self, world_grid)
+        if(gravity_fall(self, world_grid)):
+            return
+        if(bouyancy(self, world_grid, [0,-1,1])):
+            return
+        
 
-
-        for x in [0,-1,1]:
-            if world_grid.is_valid_position(self.pos_x+x,self.pos_y-1) and world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1).buoyancy < self.buoyancy:
-                
-                if world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1) == world_grid.get_next_pixel(self.pos_x+x, self.pos_y-1):
-                    # print(x)
-                    world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y-1))
-                    return
+        
 
 class Water(Pixel):
     def __init__(self, pos_x, pos_y):
@@ -77,15 +74,32 @@ class Water(Pixel):
         if(gravity_fall(self, world_grid)):
             return
 
-        for x in [0]:
-            if world_grid.is_valid_position(self.pos_x+x,self.pos_y-1) and world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1).buoyancy < self.buoyancy:
-                
-                if world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1) == world_grid.get_next_pixel(self.pos_x+x, self.pos_y-1):
-                    # print(x)
-                    world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y-1))
-                    return
+        if(bouyancy(self, world_grid, [0])):
+            return
 
         liquid_motion(self, world_grid)
+
+
+class Nitro(Pixel):
+    def __init__(self, pos_x, pos_y):
+        
+        Pixel.__init__(self, pos_x, pos_y)
+        self.color = (23,240,0)
+
+        self.buoyancy = 0.5
+        self.flammable = 1
+
+    def update(self, world_grid):
+
+        if(gravity_fall(self, world_grid)):
+            return
+
+        if(bouyancy(self, world_grid, [0])):
+            return
+
+        liquid_motion(self, world_grid)
+
+
 
 class Wood(Pixel):
 
@@ -97,10 +111,20 @@ class Wood(Pixel):
 
     def update(self, world_grid):
 
-        for x in [0,-1,1]:
-            if world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1).buoyancy > self.buoyancy:
-                world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y-1))
-                return
+        pass
+
+class Stone(Pixel):
+
+    def __init__(self, pos_x, pos_y):
+        Pixel.__init__(self, pos_x, pos_y)
+        self.color = (110, 110, 110)
+        self.buoyancy = 0.75
+        self.flammable = 0
+
+    def update(self, world_grid):
+
+        if(gravity_fall(self, world_grid)):
+            return
 
 class Lava(Pixel):
     def __init__(self, pos_x, pos_y):
@@ -112,18 +136,17 @@ class Lava(Pixel):
 
     def update(self, world_grid):
 
+        if(solidify(self, world_grid, "STONE", ["WATER"])):
+            return
+
         if(gravity_fall(self, world_grid)):
             return
 
-        for x in [0]:
-            if world_grid.is_valid_position(self.pos_x+x,self.pos_y-1) and world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1).buoyancy < self.buoyancy:
-                
-                if world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1) == world_grid.get_next_pixel(self.pos_x+x, self.pos_y-1):
-                    # print(x)
-                    world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y-1))
-                    return
+        if(bouyancy(self, world_grid, [0])):
+            return
 
-        liquid_motion(self, world_grid)
+        if(random.randrange(0,50)/10 < 2.5):
+            liquid_motion(self, world_grid)
 
         flame_spread(self, world_grid, False)
                   

@@ -100,5 +100,9 @@ def grid_pixel_factory(x, y, type_string):
         return Flame(x,y)
     elif type_string == "LAVA":
         return Lava(x,y)
+    elif type_string == "STONE":
+        return Stone(x,y)
+    elif type_string == "NITRO":
+        return Nitro(x,y)
     elif type_string == "NONE":
         return None
