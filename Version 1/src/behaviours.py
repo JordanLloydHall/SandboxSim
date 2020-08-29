@@ -42,7 +42,7 @@ def bouyancy(px, world_grid,check_array):
                     print(px.buoyancy, world_grid.get_current_pixel(px.pos_x+x, px.pos_y-1).buoyancy, world_grid.get_current_pixel(px.pos_x, px.pos_y).get_type(), world_grid.get_current_pixel(px.pos_x+x, px.pos_y-1).get_type())
                     if world_grid.get_current_pixel(px.pos_x+x, px.pos_y-1) == world_grid.get_next_pixel(px.pos_x+x, px.pos_y-1):
                         print( world_grid.get_current_pixel(px.pos_x+x, px.pos_y-1), world_grid.get_current_pixel(px.pos_x, px.pos_y))
-                        world_grid.swap_pixels(world_grid.get_current_pixel(px.pos_x, px.pos_y),world_grid.get_current_pixel(px.pos_x+x, px.pos_y-1))
+                        world_grid.move_pixel((world_grid.get_current_pixel(px.pos_x, px.pos_y).pos_x, world_grid.get_current_pixel(px.pos_x, px.pos_y).pos_y),(world_grid.get_current_pixel(px.pos_x+x, px.pos_y-1).pos_x, world_grid.get_current_pixel(px.pos_x+x, px.pos_y-1).pos_y))
                         return True
 
 

@@ -118,7 +118,7 @@ class Stone(Pixel):
     def __init__(self, pos_x, pos_y):
         Pixel.__init__(self, pos_x, pos_y)
         self.color = (110, 110, 110)
-        self.buoyancy = 0.75
+        self.buoyancy = 0
         self.flammable = 0
 
     def update(self, world_grid):
