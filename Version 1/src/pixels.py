@@ -170,8 +170,3 @@ class Pixel_Cursor(Pixel):
         
         Pixel.__init__(self, pos_x, pos_y)
         self.color = color
-
-if __name__ == "__main__":
-
-    print(Wood(0,0).get_type())
-
