@@ -13,8 +13,8 @@ from constants import *
 
 # ---- start
 pygame.init()
-padding = 60
-screen_size = screen_width, screen_height = GRID_WIDTH + padding, GRID_HEIGHT + padding
+padding = 20
+screen_size = screen_width, screen_height = GRID_WIDTH + padding*2, GRID_HEIGHT + padding*2
 bg_colour = 0,0,0
 
 screen = pygame.display.set_mode(screen_size, RESIZABLE)
@@ -22,7 +22,6 @@ held_pixel = 0
 
 cycle_left_button = False
 cycle_right_button = False
-is_mouse_down = False
 
 # ---- Calculate width of pixel (including padding) = 50
 def pixel_fullwidth():
@@ -90,7 +89,7 @@ if __name__ == "__main__":
     run = True
     debug_ticker = 0
     
-    world_grid_main = World_Grid(GRID_WIDTH, GRID_HEIGHT, NO_ROWS, NO_COLS, 20, 20)
+    world_grid_main = World_Grid(GRID_WIDTH, GRID_HEIGHT, NO_ROWS, NO_COLS, padding, padding)
     # layer_buffer = world_grid_main.make_layers(1)
     objs_layer = world_grid_main.current_pixel_grid
 
@@ -109,11 +108,6 @@ if __name__ == "__main__":
             if event.type == pygame.QUIT: 
                 sys.exit()
 
-            if event.type == MOUSEBUTTONDOWN:
-                is_mouse_down = True
-            if event.type == MOUSEBUTTONUP:
-                is_mouse_down = False
-
             if event.type == VIDEORESIZE:
                 is_resized = True
                 updateSize = event.size
@@ -121,8 +115,6 @@ if __name__ == "__main__":
             if event.type == pygame.ACTIVEEVENT and is_resized:
                 screen = pygame.display.set_mode(updateSize, RESIZABLE)
                 is_resized = False
-
-        print(is_mouse_down)
 
         world_grid_main.screen.fill((25,25,25))
         event_update()
