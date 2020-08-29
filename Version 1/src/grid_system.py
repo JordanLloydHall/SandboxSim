@@ -74,10 +74,15 @@ class World_Grid:
                 self.current_pixel_grid[new_pos[1], new_pos[0]].pos_x = old_pos[0]
                 self.current_pixel_grid[new_pos[1], new_pos[0]].pos_y = old_pos[1]
                 self.current_pixel_grid[new_pos[1], new_pos[0]].has_stepped = True
-
             self.next_pixel_grid[new_pos[1], new_pos[0]] = self.current_pixel_grid[old_pos[1], old_pos[0]]
             self.current_pixel_grid[old_pos[1], old_pos[0]].pos_x = new_pos[0]
             self.current_pixel_grid[old_pos[1], old_pos[0]].pos_y = new_pos[1]
+
+
+        
+        
+                
+
 
     def set_pixel(self, x, y, type_string = "NONE"):
         # y = self.rows - y - 1
@@ -119,6 +124,12 @@ def grid_pixel_factory(x, y, type_string):
         return Wood(x,y)
     elif type_string == "FLAME":
         return Flame(x,y)
+    elif type_string == "LAVA":
+        return Lava(x,y)
+    elif type_string == "STONE":
+        return Stone(x,y)
+    elif type_string == "NITRO":
+        return Nitro(x,y)
     elif type_string == "CLONE":
         return Clone(x,y)
     elif type_string == "NONE":

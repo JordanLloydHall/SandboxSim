@@ -1,10 +1,11 @@
 import pygame
 import random
+from behaviours import *
 
 # ---- Pixel Objects
 class Pixel:
 
-    pixel_types = list(enumerate(["DEFAULT", "SAND", "WATER", "FLAME", "CLONE"], 0))
+    pixel_types = list(enumerate(["DEFAULT", "SAND", "WATER","WOOD", "FLAME", "LAVA", "STONE", "NITRO", "CLONE"], 0))
 
     def __init__(self, pos_x, pos_y):
         self.pos_x = pos_x
@@ -52,19 +53,13 @@ class Sand(Pixel):
 
     def update(self, world_grid):
 
-        if world_grid.is_valid_position(self.pos_x,self.pos_y+1) and world_grid.get_current_pixel(self.pos_x, self.pos_y+1).get_type() == "DEFAULT":
-            if world_grid.get_next_pixel(self.pos_x, self.pos_y+1).get_type() == "DEFAULT":
-                world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x, self.pos_y+1))
-                return
+        if(gravity_fall(self, world_grid)):
+            return
+        if(bouyancy(self, world_grid, [0,-1,1])):
+            return
+        
 
-
-        for x in [0,-1,1]:
-            if world_grid.is_valid_position(self.pos_x+x,self.pos_y-1) and world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1).buoyancy < self.buoyancy:
-                
-                if world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1) == world_grid.get_next_pixel(self.pos_x+x, self.pos_y-1):
-                    # print(x)
-                    world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y-1))
-                    return
+        
 
 class Water(Pixel):
     def __init__(self, pos_x, pos_y):
@@ -76,27 +71,33 @@ class Water(Pixel):
 
     def update(self, world_grid):
 
-        if world_grid.is_valid_position(self.pos_x,self.pos_y+1) and world_grid.get_current_pixel(self.pos_x, self.pos_y+1).get_type() == "DEFAULT":
-            if world_grid.get_next_pixel(self.pos_x, self.pos_y+1).get_type() == "DEFAULT":
-                world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x, self.pos_y+1))
-                return
+        if(gravity_fall(self, world_grid)):
+            return
 
-        for x in [0]:
-            if world_grid.is_valid_position(self.pos_x+x,self.pos_y-1) and world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1).buoyancy < self.buoyancy:
-                
-                if world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1) == world_grid.get_next_pixel(self.pos_x+x, self.pos_y-1):
-                    # print(x)
-                    world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y-1))
-                    return
+        if(bouyancy(self, world_grid, [0])):
+            return
 
-        if random.random()<0.5:
-            if world_grid.is_valid_position(self.pos_x+1,self.pos_y) and world_grid.get_next_pixel(self.pos_x+1,self.pos_y).get_type() == "DEFAULT" and world_grid.get_current_pixel(self.pos_x+1,self.pos_y).get_type() == "DEFAULT":
-                world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+1,self.pos_y))
-                return
-        else:
-            if world_grid.is_valid_position(self.pos_x-1,self.pos_y) and world_grid.get_next_pixel(self.pos_x-1,self.pos_y).get_type() == "DEFAULT" and world_grid.get_current_pixel(self.pos_x-1,self.pos_y).get_type() == "DEFAULT":
-                world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x-1,self.pos_y))
-                return
+        liquid_motion(self, world_grid)
+
+
+class Nitro(Pixel):
+    def __init__(self, pos_x, pos_y):
+        
+        Pixel.__init__(self, pos_x, pos_y)
+        self.color = (23,240,0)
+
+        self.buoyancy = 0.5
+        self.flammable = 1
+
+    def update(self, world_grid):
+
+        if(gravity_fall(self, world_grid)):
+            return
+
+        if(bouyancy(self, world_grid, [0])):
+            return
+
+        liquid_motion(self, world_grid)
 
 class Clone(Pixel):
     def __init__(self, pos_x, pos_y):
@@ -140,11 +141,45 @@ class Wood(Pixel):
 
     def update(self, world_grid):
 
-        for x in [0,-1,1]:
-            if world_grid.get_current_pixel(self.pos_x+x, self.pos_y-1).buoyancy > self.buoyancy:
-                world_grid.move_pixel((self.pos_x,self.pos_y), (self.pos_x+x, self.pos_y-1))
-                return
+        pass
+
+class Stone(Pixel):
+
+    def __init__(self, pos_x, pos_y):
+        Pixel.__init__(self, pos_x, pos_y)
+        self.color = (110, 110, 110)
+        self.buoyancy = 0
+        self.flammable = 0
+
+    def update(self, world_grid):
+
+        if(gravity_fall(self, world_grid)):
+            return
+
+class Lava(Pixel):
+    def __init__(self, pos_x, pos_y):
         
+        Pixel.__init__(self, pos_x, pos_y)
+        self.color = (244,50,0)
+
+        self.buoyancy = 0.5
+
+    def update(self, world_grid):
+
+        if(solidify(self, world_grid, "STONE", ["WATER"])):
+            return
+
+        if(gravity_fall(self, world_grid)):
+            return
+
+        if(bouyancy(self, world_grid, [0])):
+            return
+
+        if(random.randrange(0,50)/10 < 2.5):
+            liquid_motion(self, world_grid)
+
+        flame_spread(self, world_grid, False)
+                  
 class Flame(Pixel):
 
     def __init__(self, pos_x, pos_y):
@@ -153,28 +188,8 @@ class Flame(Pixel):
         self.buoyancy = 0
 
     def update(self, world_grid):
-        #If surrounded by nothing (by air), the Flame Pixel should be deleted
-        # => This might be on a timer just so that the Flame doesnt extinguish too quickly.
-        # => Alternatively, Flame could rise, and after a certain number of pixels moved it could disappear.
-        #If a flammable object is in adjacent square(flammable > 0; currently only flammable = 1),
-        #Flame should replace the other pixel.
-        #Flame should be extinguished by some pixels i.e water, which could be checked as flammable < 0
-        #i.e Water could have flammable = -1.
-        # pass
 
-        has_spread = False
-
-        for y in [-1,0,1]:
-            for x in [-1,0,1]:
-                if world_grid.is_valid_position(self.pos_x+x,self.pos_y+y) and not (x==0 and y==0):
-                    if world_grid.get_current_pixel(self.pos_x+x, self.pos_y+y).flammable >= 1:
-                        if world_grid.get_current_pixel(self.pos_x+x, self.pos_y+y) == world_grid.get_next_pixel(self.pos_x+x, self.pos_y+y) or not world_grid.get_current_pixel(self.pos_x+x, self.pos_y+y).has_stepped:
-                            world_grid.set_pixel(self.pos_x+x, self.pos_y+y, "NONE")
-                            world_grid.set_next_pixel(self.pos_x+x, self.pos_y+y, "FLAME")
-                            has_spread = True
-                            return
-
-        if not has_spread:
+        if not flame_spread(self, world_grid):
             world_grid.set_next_pixel(self.pos_x, self.pos_y, "NONE")
 
 
@@ -185,7 +200,3 @@ class Pixel_Cursor(Pixel):
         
         Pixel.__init__(self, pos_x, pos_y)
         self.color = color
-
-if __name__ == "__main__":
-
-    print(Wood(0,0).get_type())
