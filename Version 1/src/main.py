@@ -6,28 +6,24 @@ So far defines the initial loop
 import sys, pygame, time
 import numpy as np
 from pixels import *
+from pygame.locals import *
 from grid_system import *
 from mouse_events import *
 from constants import *
 
 # ---- start
 pygame.init()
-screen_size = screen_width, screen_height = 1200, 1200
+
+padding = 20
+screen_size = screen_width, screen_height = GRID_WIDTH + padding*2, GRID_HEIGHT + padding*2
+
 bg_colour = 0,0,0
 
-screen = pygame.display.set_mode(screen_size)
+screen = pygame.display.set_mode(screen_size, RESIZABLE)
 held_pixel = 0
 
 cycle_left_button = False
 cycle_right_button = False
-
-# ---- Calculate width of pixel (including padding) = 50
-def pixel_fullwidth():
-    return screen_width/NO_ROWS
-
-# ---- Calculate width of pixel (not including padding) = 25
-def pixel_width():
-    return pixel_fullwidth()/2
 
 
 def event_update():
@@ -87,26 +83,40 @@ if __name__ == "__main__":
     run = True
     debug_ticker = 0
     
-    world_grid_main = World_Grid(GRID_WIDTH, GRID_HEIGHT, NO_ROWS, NO_COLS, 20, 20)
+    world_grid_main = World_Grid(GRID_WIDTH, GRID_HEIGHT, NO_ROWS, NO_COLS, padding, padding)
     # layer_buffer = world_grid_main.make_layers(1)
     objs_layer = world_grid_main.current_pixel_grid
 
     world_grid_main.set_pixel(5,5,"SAND")
 
+    is_resized = False
 
     # ---- Main Loop
     while run:
+        screen.fill((0, 0, 0))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT: 
                 sys.exit()
-        screen.fill(bg_colour)
+
+            if event.type == VIDEORESIZE:
+                is_resized = True
+                screen_size = event.size
+                screen_width = screen_size[0]
+                screen_height = screen_size[1]
+
+            if event.type == pygame.ACTIVEEVENT and is_resized:
+                screen = pygame.display.set_mode(screen_size, RESIZABLE)
+                world_grid_main.update_dimensions(screen_width, screen_height, padding)
+
+                is_resized = False
 
         world_grid_main.screen.fill((25,25,25))
         event_update()
         world_grid_main.draw_layers()   
         screen.blit(world_grid_main.screen, (world_grid_main.x_pos,world_grid_main.y_pos))
-        pygame.display.flip() 
-        time.sleep(0.01)
 
+        pygame.display.update()
+        time.sleep(0.02)
+        
         world_grid_main.step_pixels()

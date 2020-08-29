@@ -4,7 +4,6 @@ import numpy as np
 from pixels import *
 from grid_system import grid_pixel_factory
 
-
 def update_pixel_grid_mouse_hover(world_grid, held_pixel):
     mouse_pos = pygame.mouse.get_pos()
     objPos = get_mouse_pos_relative_to_grid(mouse_pos, world_grid)
@@ -15,7 +14,7 @@ def update_pixel_grid_mouse_hover(world_grid, held_pixel):
         
 
         pixel_cursor = Pixel_Cursor(objPos[0], objPos[1], colour)
-        pixel_cursor.draw_pixel(world_grid.screen, PX_SIZE)
+        pixel_cursor.draw_pixel(world_grid.screen, world_grid.get_pixel_width())
 
 def get_mouse_pos_relative_to_grid(abs_mouse_pos, world_grid):
     return (int(np.trunc((abs_mouse_pos[0] - world_grid.x_pos)/world_grid.pxwidth)), int(np.trunc((abs_mouse_pos[1] - world_grid.y_pos)/world_grid.pxwidth)))
