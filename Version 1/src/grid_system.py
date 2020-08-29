@@ -79,29 +79,25 @@ class World_Grid:
             self.current_pixel_grid[old_pos[1], old_pos[0]].pos_y = new_pos[1]
 
     def swap_pixels(self, px_1, px_2):
+
+        print("In Swap: ",px_1)
+ 
         self.next_pixel_grid[px_2.pos_x, px_2.pos_y] = self.current_pixel_grid[px_1.pos_x, px_1.pos_y]
         self.next_pixel_grid[px_1.pos_x, px_1.pos_y] = self.current_pixel_grid[px_2.pos_x, px_2.pos_y]
 
-        print(self.current_pixel_grid[px_1.pos_x, px_1.pos_y])
+        print(px_1.pos_x, px_1.pos_y, self.get_current_pixel(px_1.pos_x, px_1.pos_y))
 
-        if self.next_pixel_grid[px_1.pos_x, px_1.pos_y] != None:
-                self.current_pixel_grid[px_2.pos_x, px_2.pos_y].pos_x = px_1.pos_x
-                self.current_pixel_grid[px_2.pos_x, px_2.pos_y].pos_y = px_1.pos_y
-                self.current_pixel_grid[px_2.pos_x, px_2.pos_y].has_stepped = True
-        
-        if self.next_pixel_grid[px_2.pos_x, px_2.pos_y] != None:
-            self.current_pixel_grid[px_1.pos_x, px_1.pos_y].pos_x = px_2.pos_x
-            self.current_pixel_grid[px_1.pos_x, px_1.pos_y].pos_y = px_2.pos_y
-            self.current_pixel_grid[px_1.pos_x, px_1.pos_y].has_stepped = True
+        px_1_pos = (self.get_current_pixel(px_1.pos_x, px_1.pos_y).pos_x, self.get_current_pixel(px_1.pos_x, px_1.pos_y).pos_y)
+        px_2_pos = (self.get_current_pixel(px_2.pos_x, px_2.pos_y).pos_x, self.get_current_pixel(px_2.pos_x, px_2.pos_y).pos_y)
 
-        px_1_pos = (self.current_pixel_grid[px_1.pos_x, px_1.pos_y].pos_x, self.current_pixel_grid[px_1.pos_x, px_1.pos_y].pos_y)
-        px_2_pos = (self.current_pixel_grid[px_2.pos_x, px_2.pos_y].pos_x, self.current_pixel_grid[px_2.pos_x, px_2.pos_y].pos_y)
+        self.get_current_pixel(px_1.pos_x, px_1.pos_y).pos_x = px_2_pos[0]
+        self.get_current_pixel(px_1.pos_x, px_1.pos_y).pos_y = px_2_pos[1]
 
-        self.current_pixel_grid[px_1.pos_x, px_1.pos_y].pos_x = px_2_pos[0]
-        self.current_pixel_grid[px_1.pos_x, px_1.pos_y].pos_y = px_2_pos[1]
+        self.get_current_pixel(px_2.pos_x, px_2.pos_y).pos_x = px_1_pos[0]
+        self.get_current_pixel(px_2.pos_x, px_2.pos_y).pos_y = px_1_pos[1]
 
-        self.current_pixel_grid[px_2.pos_x, px_2.pos_y].pos_x = px_1_pos[0]
-        self.current_pixel_grid[px_2.pos_x, px_2.pos_y].pos_y = px_1_pos[1]
+        self.get_current_pixel(px_1.pos_x, px_1.pos_y).has_stepped = True
+        self.get_current_pixel(px_2.pos_x, px_2.pos_y).has_stepped = True
 
         
         
