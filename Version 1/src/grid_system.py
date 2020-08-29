@@ -1,4 +1,5 @@
 import numpy as np
+import math
 from pixels import *
 
 class World_Grid:
@@ -12,11 +13,7 @@ class World_Grid:
         self.y_pos = y_pos
         self.screen = pygame.Surface([width,height])
         
-        if (width/cols > height/rows):
-            pxwidth = height/rows
-        else:
-            pxwidth = width/cols
-        self.pxwidth = pxwidth
+        self.update_pixel_size()
         
 
         self.current_pixel_grid = np.empty((rows, cols), dtype=object)
@@ -61,6 +58,9 @@ class World_Grid:
     def get_next_pixel(self, x, y):
         return self.next_pixel_grid[y,x] if self.next_pixel_grid[y,x] else Pixel(x,y)
 
+    def get_pixel_width(self):
+        return self.pxwidth
+
     def is_valid_position(self, x, y):
         return 0 <= x < self.cols and 0 <= y < self.rows
 
@@ -86,6 +86,27 @@ class World_Grid:
     def set_next_pixel(self, x, y, type_string):
         # y = self.rows - y - 1
         self.next_pixel_grid[y][x] = grid_pixel_factory(x,y,type_string)
+
+    def update_dimensions(self, screen_width, screen_height, padding):
+        w = screen_width - padding*2
+        h = screen_height - padding*2
+
+        self.width = w
+        self.height = h
+        self.update_pixel_size()
+
+        # Need to refactor this – now that pxwidth is rounded down to nearest integer
+        # it works but it's inefficient since attributes are assigned twice
+        self.width = self.pxwidth * self.rows
+        self.height = self.pxwidth * self.cols
+        self.screen = pygame.Surface([self.width, self.height])
+
+    def update_pixel_size(self):
+        if (self.width/self.cols > self.height/self.rows):
+            pxwidth = self.height/self.rows
+        else:
+            pxwidth = self.width/self.cols
+        self.pxwidth = math.floor(pxwidth)
 
 def grid_pixel_factory(x, y, type_string):
     if type_string == "DEFAULT":
