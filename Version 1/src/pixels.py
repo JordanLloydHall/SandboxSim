@@ -34,6 +34,8 @@ class Pixel:
         return self.color
 
 class Default(Pixel):
+    desc = "empty pixel"
+
     def __init__(self, pos_x, pos_y):
         Pixel.__init__(self, pos_x, pos_y)
         self.color = (25,25,25)
@@ -43,6 +45,8 @@ class Default(Pixel):
 
 
 class Sand(Pixel):
+    desc = "basic particle affected by gravity"
+
     def __init__(self, pos_x, pos_y):
         
         Pixel.__init__(self, pos_x, pos_y)
@@ -62,6 +66,8 @@ class Sand(Pixel):
         
 
 class Water(Pixel):
+    desc = "basic, unreactive liquid"
+
     def __init__(self, pos_x, pos_y):
         
         Pixel.__init__(self, pos_x, pos_y)
@@ -81,6 +87,8 @@ class Water(Pixel):
 
 
 class Nitro(Pixel):
+    desc = "highly explosive liquid"
+
     def __init__(self, pos_x, pos_y):
         
         Pixel.__init__(self, pos_x, pos_y)
@@ -100,6 +108,7 @@ class Nitro(Pixel):
         liquid_motion(self, world_grid)
 
 class Clone(Pixel):
+    desc = "particle which copies everything it touches"
     def __init__(self, pos_x, pos_y):
         
         Pixel.__init__(self, pos_x, pos_y)
@@ -132,6 +141,7 @@ class Clone(Pixel):
                         world_grid.set_next_pixel(*candidate_place, observed_pixel.get_type())    
 
 class Wood(Pixel):
+    desc = "flammable solid particle"
 
     def __init__(self, pos_x, pos_y):
         Pixel.__init__(self, pos_x, pos_y)
@@ -144,6 +154,7 @@ class Wood(Pixel):
         pass
 
 class Stone(Pixel):
+    desc = "inert particle"
 
     def __init__(self, pos_x, pos_y):
         Pixel.__init__(self, pos_x, pos_y)
@@ -157,6 +168,8 @@ class Stone(Pixel):
             return
 
 class Lava(Pixel):
+    desc = "liquid which ignites everything it touches"
+
     def __init__(self, pos_x, pos_y):
         
         Pixel.__init__(self, pos_x, pos_y)
@@ -181,6 +194,7 @@ class Lava(Pixel):
         flame_spread(self, world_grid, False)
                   
 class Flame(Pixel):
+    desc = "particle that spreads through flammable objects"
 
     def __init__(self, pos_x, pos_y):
         Pixel.__init__(self, pos_x, pos_y)
