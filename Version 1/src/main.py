@@ -122,8 +122,6 @@ if __name__ == "__main__":
         pygame.display.update()
 
         render_speed = int(time.time() * 1000000) - frame_start_time
-        #print (render_speed)
-        #time.sleep(max(0, 0.02 - (render_speed / 1000000)))
-        time.sleep(0.02)
+        time.sleep(max(0, 0.02 - (render_speed / 1000000)))
         
         world_grid_main.step_pixels()
