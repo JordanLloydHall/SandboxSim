@@ -1,4 +1,4 @@
-# Social Evolution Simulator 2
+# Sandbox Simulator
 ![SimulatorPhoto](https://user-images.githubusercontent.com/25799076/93789154-65ccca00-fc29-11ea-8fce-ff0d0738bb66.png)
 
 ## Motivation
